@@ -153,8 +153,8 @@ export default function ModeSelect() {
   // ✅ 学習済みの単語数をカウント
   const learnedCount = words.filter((word) => word.learnedAt).length;
 
-  // ✅ プログレスバー（最大100で丸める）
-  const progress = (Math.min(learnedCount, 100) / 100) * 100;
+  // ✅ プログレスバー（最大50で丸める）
+  const progress = (Math.min(learnedCount, 50) / 50) * 100;
 
   const getProgressBarColor = (words: Word[]): string => {
     if (words.length === 0) return "from-gray-300 to-gray-400";
@@ -199,7 +199,7 @@ export default function ModeSelect() {
 
             {/* 表示テキスト */}
             <span className="text-sm font-bold text-gray-600">
-              進捗： {learnedCount} / 100 単語
+              進捗： {learnedCount} / 50 単語
             </span>
           </div>
         </div>

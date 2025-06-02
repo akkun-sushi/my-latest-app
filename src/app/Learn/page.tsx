@@ -428,7 +428,7 @@ export default function Learn() {
     return date.toISOString().slice(0, 10); // "YYYY-MM-DDTHH:mm:ss.sssZ" → "YYYY-MM-DD" に切り出し
   };
 
-  // 🎨 理解度レベルごとのスタイル設定（Tailwind CSS）
+  // 🎨 習熟度レベルごとのスタイル設定（Tailwind CSS）
   const levelStyles: Record<number, string> = {
     1: "bg-gray-200 text-gray-800", // 🟤 レベル1：初期状態
     2: "bg-red-100 text-red-800", // 🔴 レベル2：かなり苦手
@@ -555,7 +555,7 @@ export default function Learn() {
       {/* 🧠 タイトルとリスト名 */}
       <div className="mt-10 text-center space-y-2">
         <div className="inline-block bg-indigo-100 text-indigo-800 text-xl sm:text-base px-4 py-1 rounded-2xl font-semibold">
-          {listName && ListNameLabels[listName]} 100単語
+          {listName && ListNameLabels[listName]} 50単語
         </div>
         <h1 className="mt-4 text-sm im:text-base sm:text-3xl md:text-4xl font-bold text-gray-700 px-4">
           {getTitleMessage()}
@@ -647,13 +647,13 @@ export default function Learn() {
               </div>
             )}
 
-            {/* 🎓 理解度ラベル */}
+            {/* 🎓 習熟度ラベル */}
             <div
               className={`absolute bottom-4 left-4 text-sm sm:text-sm px-3 py-1 rounded-full backdrop-blur-sm ${
                 levelStyles[word.level] || "bg-gray-300/80 text-gray-800"
               }`}
             >
-              {word.level === 11 ? "👑 理解度：11" : `理解度：${word.level}`}
+              {word.level === 11 ? "👑 習熟度：11" : `習熟度：${word.level}`}
             </div>
 
             {/* 📖 中央表示 */}

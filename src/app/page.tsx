@@ -86,8 +86,8 @@ function ListModal({
   // ✅ 学習済みの単語数をカウント
   const learnedCount = words.filter((word) => word.learnedAt).length;
 
-  // ✅ プログレスバー（最大100で丸める）
-  const progress = (Math.min(learnedCount, 100) / 100) * 100;
+  // ✅ プログレスバー（最大50で丸める）
+  const progress = (Math.min(learnedCount, 50) / 50) * 100;
 
   const getProgressBarColor = (words: Word[]): string => {
     if (words.length === 0) return "from-gray-300 to-gray-400";
@@ -143,7 +143,7 @@ function ListModal({
         <div className="flex flex-col">
           <div className="flex items-center justify-between mb-4">
             <h3 className={`text-base md:text-lg font-semibold ${color}`}>
-              {label} 100単語リスト
+              {label} 50単語リスト
             </h3>
             <div
               className="cursor-pointer p-2 rounded-full hover:bg-gray-200 transition"
@@ -227,7 +227,7 @@ function ListModal({
           {/* 📊 進捗バー */}
           <div className="mt-6">
             <p className="text-xs md:text-sm text-gray-600 mb-1">
-              進捗： {learnedCount} / 100 単語
+              進捗： {learnedCount} / 50 単語
             </p>
             <div className="w-full h-3 md:h-4 bg-gray-300 rounded-full overflow-hidden">
               <div
@@ -348,7 +348,7 @@ export default function Home() {
     return ListNames.map((listName) => {
       const words = wordList[listName] ?? [];
       const learnedCount = words.filter((w) => w.learnedAt).length;
-      const progress = (Math.min(learnedCount, 100) / 100) * 100;
+      const progress = (Math.min(learnedCount, 50) / 50) * 100;
       const color = getProgressBarColor(words);
 
       return { listName, learnedCount, progress, color };
@@ -384,7 +384,7 @@ export default function Home() {
               className="bg-gray-900 cursor-pointer rounded-2xl shadow-xl p-6 flex flex-col justify-between hover:scale-105 transition-transform duration-300"
             >
               <div className="mb-4">
-                <h2 className="text-2xl font-semibold mb-2">{label} 100単語</h2>
+                <h2 className="text-2xl font-semibold mb-2">{label} 50単語</h2>
 
                 {progress && (
                   <>
@@ -395,7 +395,7 @@ export default function Home() {
                       ></div>
                     </div>
                     <p className="text-sm text-gray-300 mt-2">
-                      進捗： {progress.learnedCount} / 100 単語
+                      進捗： {progress.learnedCount} / 50 単語
                     </p>
                   </>
                 )}
