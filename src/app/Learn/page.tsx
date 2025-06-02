@@ -98,7 +98,7 @@ export default function Learn() {
 
         // 🎯 許可されているレベルの単語だけを抽出（levels: {1: true, 2: false, ...}）
         const allowedLevels = Object.entries(levels)
-          .filter(([_, val]) => val) // true のみ
+          .filter(([, val]) => val)
           .map(([key]) => Number(key)); // 数値に変換
 
         // 📦 有効レベルに該当する単語だけを残す
@@ -161,7 +161,7 @@ export default function Learn() {
 
     // 🎯 許可されているレベルの単語だけを抽出（levels: {1: true, 2: false, ...}）
     const allowedLevels = Object.entries(levels)
-      .filter(([_, val]) => val) // true のみ
+      .filter(([, val]) => val) // true のみ
       .map(([key]) => Number(key)); // 数値に変換
 
     // 📦 有効レベルに該当する単語だけを残す

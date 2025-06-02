@@ -310,7 +310,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    let storedWordList = localStorage.getItem("WordList");
+    const storedWordList = localStorage.getItem("WordList");
 
     if (!storedWordList) {
       // WordList が存在しない → 空のオブジェクトを初期化して保存

@@ -3,12 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
-import {
-  LearnSettings,
-  ListName,
-  Word,
-  WordList,
-} from "../../../types/WordList";
+import { LearnSettings, Word } from "../../../types/WordList";
 
 const LEVEL_RANGES = [
   { label: "初級（習熟度1〜3）", range: [1, 2, 3] },
@@ -127,7 +122,7 @@ export default function ModeSelect() {
 
       // ✅ 有効なレベル一覧を取得（例: [1, 3]）
       const allowedLevels = Object.entries(levels)
-        .filter(([_, val]) => val)
+        .filter(([, val]) => val)
         .map(([key]) => Number(key));
 
       // ✅ 有効レベルに該当する単語だけを抽出
@@ -221,7 +216,7 @@ export default function ModeSelect() {
               onClick: () => {
                 setMode("word-en-ja");
                 setSelectedMinLevel(3);
-                canAccess(1, words) && setShowSettings(true);
+                if (canAccess(1, words)) setShowSettings(true);
               },
             },
             {
@@ -232,7 +227,7 @@ export default function ModeSelect() {
               onClick: () => {
                 setMode("word-ja-en");
                 setSelectedMinLevel(6);
-                canAccess(4, words) && setShowSettings(true);
+                if (canAccess(4, words)) setShowSettings(true);
               },
             },
             {
@@ -243,7 +238,7 @@ export default function ModeSelect() {
               onClick: () => {
                 setMode("sentence-en-ja");
                 setSelectedMinLevel(8);
-                canAccess(7, words) && setShowSettings(true);
+                if (canAccess(7, words)) setShowSettings(true);
               },
             },
             {
@@ -254,10 +249,10 @@ export default function ModeSelect() {
               onClick: () => {
                 setMode("sentence-ja-en");
                 setSelectedMinLevel(10);
-                canAccess(9, words) && setShowSettings(true);
+                if (canAccess(9, words)) setShowSettings(true);
               },
             },
-          ].map((btn, i) => (
+          ].map((btn) => (
             <button
               key={btn.label}
               disabled={!btn.available}
