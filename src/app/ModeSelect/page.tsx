@@ -299,11 +299,13 @@ export default function ModeSelect() {
         {showSettings && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div
-              className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl w-[90vw] max-w-lg p-8 space-y-6 relative"
-              onClick={(e) => e.stopPropagation()} // 中身クリックでは閉じない
+              className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl 
+             w-[90vw] max-w-lg p-6 space-y-4 relative 
+             max-h-[90dvh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
             >
               <div
-                className="absolute top-8 right-6 cursor-pointer p-2 rounded-full hover:bg-gray-200 transition"
+                className="absolute top-6 right-6 cursor-pointer p-2 rounded-full hover:bg-gray-200 transition"
                 onClick={() => setShowSettings(false)}
               >
                 <svg

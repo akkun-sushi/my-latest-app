@@ -536,6 +536,12 @@ export default function Learn() {
     return "bg-red-300/70"; // 柔らかい赤
   };
 
+  const ListNameLabels: Record<Exclude<ListName, null>, string> = {
+    Beginner: "初級",
+    Intermediate: "中級",
+    Advanced: "上級",
+  };
+
   return (
     <div className="h-[100dvh] bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col items-center relative pb-20 sm:pb-20">
       {/* 🔙 戻るボタン */}
@@ -549,9 +555,9 @@ export default function Learn() {
       {/* 🧠 タイトルとリスト名 */}
       <div className="mt-10 text-center space-y-2">
         <div className="inline-block bg-indigo-100 text-indigo-800 text-xl sm:text-base px-4 py-1 rounded-2xl font-semibold">
-          初級 100単語
+          {listName && ListNameLabels[listName]} 100単語
         </div>
-        <h1 className="mt-4 text-md sm:text-2xl md:text-3xl font-bold text-gray-700 px-4">
+        <h1 className="mt-4 text-sm im:text-base sm:text-3xl md:text-4xl font-bold text-gray-700 px-4">
           {getTitleMessage()}
         </h1>
       </div>
@@ -561,7 +567,7 @@ export default function Learn() {
         <>
           <div
             onClick={handleCardClick}
-            className={`relative w-[90dvw] max-w-xl h-[60vh] sm:h-[50vh] mt-10 rounded-3xl shadow-2xl p-6 sm:p-10 text-center text-2xl sm:text-3xl font-bold cursor-pointer select-none flex items-center justify-center transition-all
+            className={`relative w-[90dvw] max-w-xl h-[60dvh] sm:h-[50dvh] mt-10 rounded-3xl shadow-2xl p-6 sm:p-10 text-center text-2xl sm:text-3xl font-bold cursor-pointer select-none flex items-center justify-center transition-all
     ${
       buttonPressed === "know"
         ? "bg-green-200"
@@ -655,11 +661,11 @@ export default function Learn() {
           </div>
 
           {/* ✅ 回答ボタン */}
-          <div className="flex flex-col sm:flex-row justify-center items-center w-full max-w-md mt-8 gap-6 px-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center w-full max-w-md mt-8 gap-4 px-4">
             <button
               onClick={() => handleAnswer("dontKnow")}
               disabled={!!buttonPressed || isSpeaking}
-              className={`w-full sm:w-1/2 py-4 text-lg font-semibold text-white rounded-xl shadow-md bg-red-500 hover:bg-red-600 transition ${
+              className={`w-full sm:w-1/2 py-2 im:py-4 text-base sm:text-lg font-semibold text-white rounded-xl shadow-md bg-red-500 hover:bg-red-600 transition ${
                 buttonPressed || isSpeaking ? "opacity-50" : ""
               }`}
             >
@@ -668,7 +674,7 @@ export default function Learn() {
             <button
               onClick={() => handleAnswer("know")}
               disabled={!!buttonPressed || isSpeaking}
-              className={`w-full sm:w-1/2 py-4 text-lg font-semibold text-white rounded-xl shadow-md bg-green-500 hover:bg-green-600 transition ${
+              className={`w-full sm:w-1/2 py-2 im:py-4 text-base sm:text-lg font-semibold text-white rounded-xl shadow-md bg-green-500 hover:bg-green-600 transition ${
                 buttonPressed || isSpeaking ? "opacity-50" : ""
               }`}
             >
