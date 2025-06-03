@@ -547,17 +547,17 @@ export default function Learn() {
       {/* 🔙 戻るボタン */}
       <button
         onClick={handleBack}
-        className="absolute top-4 left-4 sm:top-6 sm:left-6 text-blue-600 hover:text-blue-800 text-lg sm:text-xl font-semibold flex items-center space-x-1"
+        className="absolute top-4 left-4 sm:top-6 sm:left-6 text-blue-600 hover:text-blue-800 text-sm is:text-lg sm:text-xl font-semibold flex items-center space-x-1"
       >
         <span>←戻る</span>
       </button>
 
       {/* 🧠 タイトルとリスト名 */}
       <div className="mt-10 text-center space-y-2">
-        <div className="inline-block bg-indigo-100 text-indigo-800 text-xl sm:text-base px-4 py-1 rounded-2xl font-semibold">
+        <div className="inline-block bg-indigo-100 text-indigo-800 text-base is:text-xl sm:text-base px-4 py-1 rounded-2xl font-semibold">
           {listName && ListNameLabels[listName]} 50単語
         </div>
-        <h1 className="mt-4 text-sm im:text-base sm:text-3xl md:text-4xl font-bold text-gray-700 px-4">
+        <h1 className="mt-2 is:mt-4 text-xs is:text-sm im:text-base sm:text-3xl md:text-4xl font-bold text-gray-700 px-4">
           {getTitleMessage()}
         </h1>
       </div>
@@ -567,7 +567,7 @@ export default function Learn() {
         <>
           <div
             onClick={handleCardClick}
-            className={`relative w-[90dvw] max-w-xl h-[60dvh] sm:h-[50dvh] mt-10 rounded-3xl shadow-2xl p-6 sm:p-10 text-center text-2xl sm:text-3xl font-bold cursor-pointer select-none flex items-center justify-center transition-all
+            className={`relative w-[90dvw] max-w-xl h-[60dvh] sm:h-[50dvh] mt-4 is:mt-10 rounded-3xl shadow-2xl p-6 sm:p-10 text-center text-2xl sm:text-3xl font-bold cursor-pointer select-none flex items-center justify-center transition-all
     ${
       buttonPressed === "know"
         ? "bg-green-200"
@@ -661,7 +661,7 @@ export default function Learn() {
           </div>
 
           {/* ✅ 回答ボタン */}
-          <div className="flex flex-col sm:flex-row justify-center items-center w-full max-w-md mt-8 gap-4 px-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center w-full max-w-md mt-4 is:mt-8 gap-4 px-4">
             <button
               onClick={() => handleAnswer("dontKnow")}
               disabled={!!buttonPressed || isSpeaking}

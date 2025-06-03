@@ -39,6 +39,9 @@ export default function ModeSelect() {
     getAllLevels()
   ); // ✅ 習熟度ごとの有効状態を管理
 
+  // 🔽 状態追加（コンポーネント上部に）
+  const [selectedLevel, setSelectedLevel] = useState(1);
+
   // 🎯 初回マウント時：localStorageから単語データを読み込む
   useEffect(() => {
     const storedListName = localStorage.getItem("ListName");
@@ -173,7 +176,7 @@ export default function ModeSelect() {
       <div className="max-w-4xl mx-auto">
         {/* タイトル＆進捗 */}
         <header className="sticky top-0 z-50 bg-white/30 backdrop-blur-xl shadow-md px-6 py-4 rounded-b-2xl border-b border-gray-200">
-          <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
+          <h1 className="text-xl is:text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
             <span onClick={() => router.push("/")} className="text-3xl">
               📚
             </span>
@@ -182,7 +185,7 @@ export default function ModeSelect() {
           </h1>
         </header>
         <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-6">
-          <p className="mt-2 text-lg text-gray-500 font-medium">
+          <p className="mt-2 text-sm is:text-lg text-gray-500 font-medium">
             楽しく、効率よく、言葉の力を伸ばそう！
           </p>
           {/* 進捗バー */}
@@ -198,7 +201,7 @@ export default function ModeSelect() {
             </div>
 
             {/* 表示テキスト */}
-            <span className="text-sm font-bold text-gray-600">
+            <span className="text-xs is:text-sm font-bold text-gray-600">
               進捗： {learnedCount} / 50 単語
             </span>
           </div>
@@ -266,8 +269,8 @@ export default function ModeSelect() {
             }
           `}
             >
-              <span className="text-2xl font-bold">{btn.label}</span>
-              <span className="text-base">{btn.desc}</span>
+              <span className="text-xl is:text-2xl font-bold">{btn.label}</span>
+              <span className="text-xs is:text-base">{btn.desc}</span>
             </button>
           ))}
         </section>
@@ -330,7 +333,9 @@ export default function ModeSelect() {
 
               {/* ✅ メソッド選択 */}
               <div className="space-y-2">
-                <h3 className="text-lg font-bold text-gray-700">メソッド</h3>
+                <h3 className="text-md is:text-lg font-bold text-gray-700">
+                  メソッド
+                </h3>
                 <div className="flex gap-3">
                   {["learn", "review", "test"].map((m) => {
                     const labels = {
@@ -357,7 +362,7 @@ export default function ModeSelect() {
                         key={m}
                         onClick={() => setMethod(m as typeof method)}
                         disabled={isDisabled}
-                        className={`px-4 py-2 rounded-full text-sm font-bold shadow-sm transition
+                        className={`px-4 py-2 rounded-full text-xs is:text-sm font-bold shadow-sm transition
                   ${
                     method === m
                       ? colors[m as keyof typeof colors]
@@ -379,7 +384,9 @@ export default function ModeSelect() {
 
               {/* ✅ 並び順設定（ボタン風） */}
               <div className="space-y-2">
-                <h3 className="text-lg font-bold text-gray-700">単語の順序</h3>
+                <h3 className="text-md is:text-lg font-bold text-gray-700">
+                  単語の順序
+                </h3>
                 <div className="flex gap-3 flex-wrap">
                   {[
                     {
@@ -406,7 +413,7 @@ export default function ModeSelect() {
                         )
                       }
                       disabled={method === "test"}
-                      className={`px-4 py-2 rounded-full text-sm font-bold shadow-sm transition 
+                      className={`px-4 py-2 rounded-full text-xs is:text-sm font-bold shadow-sm transition 
           ${order === opt.value ? opt.color : "bg-gray-100 text-gray-500"} 
           ${
             method === "test"
@@ -423,7 +430,7 @@ export default function ModeSelect() {
 
               {/* ✅ 習熟度選択 */}
               <div className="space-y-2">
-                <h3 className="text-lg font-bold text-gray-700">
+                <h3 className="text-md is:text-lg font-bold text-gray-700">
                   習熟度レベル
                 </h3>
                 <div className="space-y-2">
@@ -437,7 +444,7 @@ export default function ModeSelect() {
                         key={label}
                         className="border rounded-md p-3 bg-white shadow-sm"
                       >
-                        <h4 className="font-semibold mb-2 text-gray-700">
+                        <h4 className="text-sm is:text-base font-semibold mb-2 text-gray-700">
                           {label}
                         </h4>
                         <div className="flex flex-col gap-2">
@@ -461,7 +468,7 @@ export default function ModeSelect() {
                                   }
                                   disabled={method !== "learn"}
                                 />
-                                <span className="text-sm font-semibold text-gray-800">
+                                <span className="text-xs is:text-sm font-semibold text-gray-800">
                                   <span className="font-bold text-indigo-600 mr-1">
                                     習熟度 {lv}
                                   </span>
@@ -491,8 +498,79 @@ export default function ModeSelect() {
         )}
       </div>
 
-      {/* 初期化ボタン（画面最下部に自然に配置） */}
-      <div className="mt-12 flex justify-end">
+      {/* 初期化＋レベル一括設定ボタン（画面最下部に自然に配置） */}
+      <div className="mt-12 flex justify-end gap-4">
+        {/* 🔽 レベル選択ドロップダウン */}
+        <select
+          value={selectedLevel}
+          onChange={(e) => setSelectedLevel(Number(e.target.value))}
+          className="text-xs border px-2 py-1 rounded-sm"
+          title="設定するレベルを選んでください"
+        >
+          {[...Array(11)].map((_, i) => (
+            <option key={i + 1} value={i + 1}>
+              レベル {i + 1}
+            </option>
+          ))}
+        </select>
+
+        {/* 🔁 レベル一括設定ボタン */}
+        <button
+          onClick={() => {
+            const updateAllWordLevels = (newLevel: number) => {
+              const storedListName = localStorage.getItem("ListName");
+              if (!storedListName) return;
+
+              try {
+                const parsedListName = JSON.parse(storedListName); // 例: "MyList"
+                const storedWordList = localStorage.getItem("WordList");
+
+                if (!storedWordList) return;
+
+                const parsedWordList = JSON.parse(storedWordList); // 例: { MyList: Word[] }
+
+                if (
+                  parsedWordList &&
+                  Array.isArray(parsedWordList[parsedListName])
+                ) {
+                  const updatedWords = parsedWordList[parsedListName].map(
+                    (word: Word) => ({
+                      ...word,
+                      level: newLevel,
+                    })
+                  );
+
+                  // 🔁 WordList全体の該当リストのみ更新
+                  const updatedWordList = {
+                    ...parsedWordList,
+                    [parsedListName]: updatedWords,
+                  };
+
+                  // 💾 localStorageに保存
+                  localStorage.setItem(
+                    "WordList",
+                    JSON.stringify(updatedWordList)
+                  );
+
+                  // 🖥️ 表示中のリストも更新（必要に応じて）
+                  setWords(updatedWords);
+                }
+              } catch (e) {
+                console.error(
+                  "localStorageの読み取りまたは解析に失敗しました:",
+                  e
+                );
+              }
+            };
+            updateAllWordLevels(selectedLevel);
+          }}
+          className="bg-blue-500 text-white text-xs px-4 py-2 rounded-sm shadow hover:bg-blue-600 transition"
+          title={`すべての単語のレベルを${selectedLevel}に設定`}
+        >
+          レベル一括設定
+        </button>
+
+        {/* 🧨 初期化ボタン */}
         <button
           onClick={() => {
             localStorage.clear();
