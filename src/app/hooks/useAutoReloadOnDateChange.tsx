@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { fetchFromLocalStorage } from "@/app/hooks/fetchFromLocalStorage";
 import { getToday } from "./dateUtils";
+import { fetchFromLocalStorage } from "./fetchFromLocalStorage";
 
 export const useAutoReloadOnDateChange = () => {
   useEffect(() => {
@@ -18,8 +18,8 @@ export const useAutoReloadOnDateChange = () => {
       )
         return;
 
-      const isTodayListLearnedToday = todayLearningList.some((word: any) =>
-        word.senses.some((sense: any) => {
+      const isTodayListLearnedToday = todayLearningList.some((word) =>
+        word.senses.some((sense) => {
           const status = senseStatuses.find(
             (s) => s.senses_id === sense.senses_id
           );
@@ -29,10 +29,10 @@ export const useAutoReloadOnDateChange = () => {
 
       if (!isTodayListLearnedToday) {
         console.log("📅 日付が変わったようなのでリロードします");
-        clearInterval(interval); // 無限リロード防止
+        clearInterval(interval);
         window.location.reload();
       }
-    }, 60000); // ⏰ 60秒に1回チェック
+    }, 60000);
 
     return () => clearInterval(interval);
   }, []);

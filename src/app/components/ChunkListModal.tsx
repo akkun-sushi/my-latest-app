@@ -27,7 +27,16 @@ export default function ChunkListModal({
 
   // 🔹 localStorageからlearningPlan（学習進捗）を取得
   const { userData } = fetchFromLocalStorage();
-  if (!userData) return null; // learningPlanが未定義なら描画しない
+
+  // ✋ モーダル表示中は背景スクロールを止める
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
+  if (!isOpen || !userData) return null; // 非表示なら描画しない
 
   const learningPlan = userData.learningPlan;
 
@@ -55,16 +64,6 @@ export default function ChunkListModal({
     // 学習モード選択ページへ遷移
     router.push("/ModeSelect");
   };
-
-  // ✋ モーダル表示中は背景スクロールを止める
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "auto";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null; // 非表示なら描画しない
 
   return (
     <div

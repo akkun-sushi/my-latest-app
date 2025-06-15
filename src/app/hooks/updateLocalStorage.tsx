@@ -1,4 +1,11 @@
-type LocalStorageData = Record<string, any>;
+import { LearnSettings, SenseStatus, UserData, WordWithSenses } from "../../../types/WordSensesList";
+
+type LocalStorageData =
+  | UserData
+  | LearnSettings
+  | WordWithSenses[]
+  | SenseStatus[]
+  
 
 export const updateLocalStorageObject = <T extends LocalStorageData>(
   key: string,

@@ -20,7 +20,7 @@ export const LearnSettingsModal = ({
 }: Props) => {
   const router = useRouter();
 
-  const [questionType, setQuestionType] = useState("en-ja"); //一時的にen-jaの選択可 のちのちオプション拡大
+  const [questionType] = useState("en-ja"); //一時的にen-jaの選択可 のちのちオプション拡大
   const [order, setOrder] = useState("random");
   const [wordCount, setWordCount] = useState(100);
   const [onlyMistakes, setOnlyMistakes] = useState(false);

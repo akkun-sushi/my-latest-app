@@ -14,6 +14,20 @@
 
 "use client";
 
+type SupabaseSenseRow = {
+  id: number;
+  pos: string;
+  en: string;
+  ja: string;
+  se_en: string;
+  se_ja: string;
+  tags: string;
+  WordList: {
+    id: number;
+    word: string;
+  }[];
+};
+
 import { supabase } from "../../../lib/supabaseClient";
 import {
   INITIAL_LEARN_SETTINGS,
@@ -105,8 +119,8 @@ export const initializeFromSupabase = (tag: string) => {
       .sort((a, b) => a.word.localeCompare(b.word));
 
     // ✅ 各senseに対する初期ステータスを作成
-    const senseStatusList = data.map((sense: any) => ({
-      word_id: sense.WordList.id,
+    const senseStatusList = (data as SupabaseSenseRow[]).map((sense) => ({
+      word_id: sense.WordList[0].id,
       senses_id: sense.id,
       level: 0,
       learnedDate: null,
