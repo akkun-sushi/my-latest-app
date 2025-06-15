@@ -61,9 +61,9 @@ export default function Sidebar({
                 <a href={item.path}>
                   <div
                     className={`
-                    flex items-center gap-3 px-3 py-2 rounded-lg transition cursor-pointer
-                    ${isActive ? "bg-blue-600" : "hover:bg-gray-700"}
-                  `}
+                flex items-center gap-3 px-3 py-2 rounded-lg transition cursor-pointer
+                ${isActive ? "bg-blue-600" : "hover:bg-gray-700"}
+              `}
                   >
                     <span className="text-xl">{item.icon}</span>
                     <span className="text-lg">{item.label}</span>

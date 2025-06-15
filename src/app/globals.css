@@ -1,8 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@theme {
-  --breakpoint-is: 375px;
-  --breakpoint-im: 390px;
-  --breakpoint-il: 414px;
+@layer base {
+  :root {
+    --breakpoint-is: 375px;
+    --breakpoint-im: 390px;
+    --breakpoint-il: 414px;
+  }
 }
