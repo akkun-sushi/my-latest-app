@@ -88,8 +88,18 @@ export const initializeFromSupabase = (tag: string) => {
     const wordMap = new Map<number, { word: string; senses: Sense[] }>();
 
     data.forEach((sense: SupabaseSenseRow) => {
-      const wordId = sense.WordList[0].id;
-      const word = sense.WordList[0].word;
+      const rawWordList = sense.WordList;
+      const wordEntry = Array.isArray(rawWordList)
+        ? rawWordList[0]
+        : rawWordList;
+
+      if (!wordEntry) {
+        console.warn("❌ WordList が見つかりません", sense);
+        return;
+      }
+
+      const wordId = wordEntry.id;
+      const word = wordEntry.word;
 
       if (!wordMap.has(wordId)) {
         wordMap.set(wordId, {
@@ -120,16 +130,30 @@ export const initializeFromSupabase = (tag: string) => {
       .sort((a, b) => a.word.localeCompare(b.word));
 
     // ✅ 各senseに対する初期ステータスを作成
-    const senseStatusList = (data as SupabaseSenseRow[]).map((sense) => ({
-      word_id: sense.WordList[0].id,
-      senses_id: sense.id,
-      level: 0,
-      learnedDate: null,
-      reviewDate: null,
-      correct: 0,
-      mistake: 0,
-      temp: 0,
-    }));
+    const senseStatusList = (data as SupabaseSenseRow[])
+      .map((sense) => {
+        const rawWordList = sense.WordList;
+        const wordEntry = Array.isArray(rawWordList)
+          ? rawWordList[0]
+          : rawWordList;
+
+        if (!wordEntry || wordEntry.id == null) {
+          console.warn("❌ WordList が無効です:", sense);
+          return null;
+        }
+
+        return {
+          word_id: wordEntry.id,
+          senses_id: sense.id,
+          level: 0,
+          learnedDate: null as string | null,
+          reviewDate: null as string | null,
+          correct: 0,
+          mistake: 0,
+          temp: 0,
+        };
+      })
+      .filter((s): s is SenseStatus => s !== null); // null を除去
 
     // 🔁 senses_id -> ステータス のMapを作成（並び替え用）
     const senseStatusMap = new Map<number, (typeof senseStatusList)[0]>();
