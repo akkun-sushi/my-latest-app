@@ -34,6 +34,7 @@ import {
   INITIAL_USER_DATA,
   LearningPlan,
   LearnSettings,
+  Sense,
   SenseStatus,
   UserData,
   WordWithSenses,
@@ -84,11 +85,11 @@ export const initializeFromSupabase = (tag: string) => {
     }
 
     // 📦 WordList単位で senses をグループ化（Mapを使用）
-    const wordMap = new Map<number, { word: string; senses: any[] }>();
+    const wordMap = new Map<number, { word: string; senses: Sense[] }>();
 
-    data.forEach((sense: any) => {
-      const wordId = sense.WordList.id;
-      const word = sense.WordList.word;
+    data.forEach((sense: SupabaseSenseRow) => {
+      const wordId = sense.WordList[0].id;
+      const word = sense.WordList[0].word;
 
       if (!wordMap.has(wordId)) {
         wordMap.set(wordId, {
@@ -139,12 +140,11 @@ export const initializeFromSupabase = (tag: string) => {
     // 🔁 senseの順にステータスを並び替える
     const sortedSenseStatusList = wordListForLocalStorage.flatMap(
       ({ senses }) =>
-        senses.map((sense: any) => {
+        senses.map((sense: Sense) => {
           const status = senseStatusMap.get(sense.senses_id);
-          // ステータスがない場合のフォールバック処理
           if (!status) {
             return {
-              word_id: sense.word_id,
+              word_id: -1, // fallback
               senses_id: sense.senses_id,
               level: 1,
               learnedAt: null,
