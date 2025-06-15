@@ -18,8 +18,6 @@ export const LearnSettingsModal = ({
   isOpen,
   onClose,
 }: Props) => {
-  if (!isOpen) return null;
-
   const router = useRouter();
 
   const [questionType, setQuestionType] = useState("en-ja"); //一時的にen-jaの選択可 のちのちオプション拡大

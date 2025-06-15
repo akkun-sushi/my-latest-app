@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { fetchFromLocalStorage } from "@/app/hooks/fetchFromLocalStorage";
 import { WordWithSenses } from "../../../types/WordSensesList";
+import Image from "next/image";
 
 type Props = {
   word: string;
@@ -45,17 +46,6 @@ const DictionaryModal = ({ word, isOpen, onClose }: Props) => {
       });
   }, [word]);
 
-  const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    const target = e.target as HTMLImageElement;
-    if (target.src.endsWith(".jpg")) {
-      target.src = `/images/words/${imageName}.png`; // imageNameを使う
-    } else {
-      setShowImage(false);
-    }
-  };
-
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -80,6 +70,17 @@ const DictionaryModal = ({ word, isOpen, onClose }: Props) => {
 
   const imageName = wordData.word.toLowerCase().replace(/\s+/g, "_");
 
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    const target = e.target as HTMLImageElement;
+    if (target.src.endsWith(".jpg")) {
+      target.src = `/images/words/${imageName}.png`; // imageNameを使う
+    } else {
+      setShowImage(false);
+    }
+  };
+
   return (
     <div
       onClick={onClose}
@@ -92,7 +93,7 @@ const DictionaryModal = ({ word, isOpen, onClose }: Props) => {
         {/* 左：画像 */}
         <div className="md:w-1/2 w-full rounded-xl overflow-hidden shadow min-h-[180px]">
           {showImage ? (
-            <img
+            <Image
               src={`/images/words/${imageName}.jpg`}
               alt={`${wordData.word} image`}
               className="w-full h-full object-cover"
@@ -120,7 +121,9 @@ const DictionaryModal = ({ word, isOpen, onClose }: Props) => {
                 <p className="text-sm font-medium text-gray-500">{sense.pos}</p>
                 <p className="text-lg font-semibold mt-1">{sense.en}</p>
                 <p className="text-gray-700 mb-2">{sense.ja}</p>
-                <p className="italic text-indigo-600">"{sense.seEn}"</p>
+                <p className="italic text-indigo-600">
+                  &quot;{sense.seEn}&quot;
+                </p>
                 <p className="text-sm text-gray-600">→ {sense.seJa}</p>
               </div>
             ))}
