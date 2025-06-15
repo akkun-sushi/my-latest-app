@@ -240,8 +240,8 @@ export function useAnswerHandler(
         if (!targetSensesIds.includes(s.senses_id)) return s; // 対象外は変更なし
 
         const isCorrect = s.temp === 1;
-        let newCorrect = s.correct + (isCorrect ? 1 : 0);
-        let newMistake = s.mistake + (!isCorrect ? 1 : 0);
+        const newCorrect = s.correct + (isCorrect ? 1 : 0);
+        const newMistake = s.mistake + (!isCorrect ? 1 : 0);
         let newLevel = s.level;
         let learnedDate = s.learnedDate;
         let newReviewDate = s.reviewDate;

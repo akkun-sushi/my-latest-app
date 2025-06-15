@@ -54,8 +54,8 @@ export const useFlashCard = ({
   };
 
   // 戻るボタン処理（indexを1つ減らす）
-  const handleBackClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleBackClick = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     if (index > 0) {
       setIsBackButtonPressed(true);
       setIsFront(true); // 表面に戻す
@@ -76,14 +76,14 @@ export const useFlashCard = ({
   };
 
   // スピーカーボタン処理（単語音声再生）
-  const handleSpeakerClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleSpeakerClick = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     if (currentWord) speakWord(currentWord.word);
   };
 
   // 自動読み上げ ON/OFF 切り替え
-  const handleAutoSpeakerClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleAutoSpeakerClick = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setIsAutoSpeaking((prev) => !prev);
   };
 
@@ -128,16 +128,16 @@ export const useFlashCard = ({
       // 各キーに応じたアクション
       switch (key) {
         case "q":
-          handleBackClick(e as any);
+          handleBackClick();
           break;
         case "w":
-          handleMoreInfoClick(e as any);
+          handleMoreInfoClick();
           break;
         case "e":
-          handleSpeakerClick(e as any);
+          handleSpeakerClick();
           break;
         case "r":
-          handleAutoSpeakerClick(e as any);
+          handleAutoSpeakerClick();
           break;
         case "a":
           if (mode === "input") {

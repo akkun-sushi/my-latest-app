@@ -33,11 +33,6 @@ export default function Calendar() {
     const { userData } = fetchFromLocalStorage();
     if (!userData) return;
 
-    const progress = userData.progress;
-
-    // 学習した日付をセットにする（Record型 → キー一覧）
-    const studiedDates = new Set(Object.keys(progress));
-
     const firstDayOfMonth = startOfMonth(new Date(year, month - 1));
     const lastDayOfMonth = endOfMonth(firstDayOfMonth);
 

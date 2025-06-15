@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 // 動的インポートでもOKだが、Chart全体をクライアント扱いにする方が安全
 const LearningLineChart = dynamic(() => import("./LearningLineChart"), {
   ssr: false,
-});
+}); 
 
 const Chart = () => {
   const [daysStudied, setDaysStudied] = useState(0);
@@ -26,7 +26,7 @@ const Chart = () => {
 
     const dateSet = new Set(dates);
     let count = 0;
-    let current = new Date(today);
+    const current = new Date(today);
 
     while (true) {
       const yyyy_mm_dd = current.toISOString().slice(0, 10);

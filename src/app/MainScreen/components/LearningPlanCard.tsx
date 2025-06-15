@@ -17,8 +17,6 @@ export const LearningPlanCard = ({
   unlockedChunkIndex,
   learningPlan,
 }: Props) => {
-  if (!wordLists || !learningPlan) return null;
-
   const [today, setToday] = useState<string>("");
 
   // 日付のフォーマット関数内で例外処理を追加
@@ -29,7 +27,7 @@ export const LearningPlanCard = ({
         .map(Number)
         .sort((a, b) => a - b);
 
-      let firstStartDate = chunks[sortedChunkIndexes[0]]?.startDate;
+      const firstStartDate = chunks[sortedChunkIndexes[0]]?.startDate;
       if (!firstStartDate) return "未定";
 
       let currentDate = parseISO(firstStartDate);
@@ -100,6 +98,8 @@ export const LearningPlanCard = ({
     : progressRatio >= 0.3
     ? "いいペースですね！この調子で進めましょう！"
     : "まだ始まったばかり。コツコツ進めていきましょう！";
+
+  if (!wordLists || !learningPlan) return null;
 
   return (
     <div className="w-full max-w-6xl mb-8 px-6 py-6 bg-gradient-to-r from-indigo-800 to-purple-800 text-white rounded-2xl shadow-xl space-y-6">
