@@ -47,7 +47,7 @@ export const DeveloperTool = () => {
     localStorage.setItem("CustomToday", selectedDate);
     setIsClicked(true);
     setTimeout(() => setIsClicked(false), 500);
-    window.location.reload();
+    //window.location.reload();
   };
 
   const setAlllevel = (x: number) => {

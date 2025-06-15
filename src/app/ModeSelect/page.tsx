@@ -20,6 +20,7 @@ import {
 } from "../hooks/updateLocalStorage";
 import { LearnSettingsModal } from "../components/LearnSettingsModal";
 import LearningPlanInfo from "./components/LearningPlanInfo";
+import { useAutoReloadOnDateChange } from "../hooks/useAutoReloadOnDateChange";
 
 export default function Page() {
   // ✅ ルーター取得
@@ -39,6 +40,9 @@ export default function Page() {
   // ==========================
   // ✅ 初期マウント処理
   // ==========================
+
+  // 📅 日付変化を検知して自動リロード
+  useAutoReloadOnDateChange();
 
   // ✅ 初期マウント時に localStorage からデータ取得しステート更新
   useEffect(() => {
@@ -195,8 +199,6 @@ export default function Page() {
     isTestUnlocked: boolean;
     isLearningCompleted: boolean;
   } => {
-    console.log("現在のインデックス", learningPlan.currentChunkIndex);
-    console.log("解禁したインデックス", learningPlan.unlockedChunkIndex);
     if (learningPlan.currentChunkIndex !== learningPlan.unlockedChunkIndex) {
       return {
         isOutputUnlocked: true,

@@ -105,6 +105,18 @@ export default function Home() {
         onClose={() => setIsModalOpen(false)}
         redirectPath={"/MainScreen"}
       />
+
+      {/* ✅ 開発用：localStorage初期化ボタン（あとで消す） */}
+      <button
+        onClick={() => {
+          localStorage.clear();
+          alert("🧹 localStorageを初期化しました！");
+          window.location.reload();
+        }}
+        className="fixed bottom-4 right-4 text-xs px-3 py-1 bg-red-500 text-white rounded-full shadow hover:bg-red-600"
+      >
+        🧪 初期化
+      </button>
     </main>
   );
 }
