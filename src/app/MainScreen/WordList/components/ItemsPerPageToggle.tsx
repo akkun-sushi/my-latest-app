@@ -23,7 +23,7 @@ export default function ItemsPerPageToggle({
           <button
             key={n}
             onClick={() => onChange(n)}
-            className={`px-2.5 md::px-4 py-1.5 rounded-full text-sm border transition shadow-sm font-semibold whitespace-nowrap
+            className={`px-2.5 im:px-4 py-1.5 rounded-full text-sm border transition shadow-sm font-semibold whitespace-nowrap
           ${
             isSelected
               ? "bg-blue-600 text-white border-blue-600"

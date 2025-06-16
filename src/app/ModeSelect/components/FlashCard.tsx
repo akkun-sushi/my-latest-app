@@ -49,14 +49,16 @@ const FlashCard = ({
   const wordLength = currentWord.word.length;
   let fontSizeClass = "text-5xl";
 
-  if (wordLength > 10) {
-    fontSizeClass = "text-3xl";
+  if (wordLength > 14) {
+    fontSizeClass = "text-2xl im:text-4xl";
+  } else if (wordLength > 10) {
+    fontSizeClass = "text-3xl im:text-5xl";
   } else if (wordLength > 7) {
-    fontSizeClass = "text-4xl";
+    fontSizeClass = "text-4l im:text-5xl";
   }
 
   return (
-    <div className="mt-12 im:mt-16 md:mt-24 md:mb-4 flex flex-col items-center justify-center flex-1 w-full px-6">
+    <div className="mt-12 im:mt-20 md:mt-24 im:mb-4 flex flex-col items-center justify-center flex-1 w-full px-6">
       <div
         className={`w-full md:max-w-[80dvw] rounded-3xl p-2 shadow-xl text-center duration-300 flex flex-col justify-between h-full transition-colors ${
           buttonPressed === "know"
@@ -82,14 +84,14 @@ const FlashCard = ({
           {/* 🟠 センテンス部分 */}
           <div
             className={`${isTest ? "basis-[30%]" : "basis-[25%]"} ${
-              isInput ? "hidden md:flex" : "flex"
+              isInput ? "hidden im:flex" : "flex"
             } relative items-start text-left justify-start`}
           >
             <p
               className={`${
                 isTest
                   ? "px-2 top-1/2 -translate-y-1/2"
-                  : "top-1 left-1 md:top-1/2 md:-translate-y-1/2"
+                  : "top-1 left-1 im:top-1/2 im:-translate-y-1/2"
               } text-sm im:text-xl md:text-4xl font-semibold break-words absolute `}
             >
               {isInput ? (isFront ? sense.seEn : sense.seJa) : sense.seEn}
@@ -97,21 +99,21 @@ const FlashCard = ({
           </div>
           <div
             className={`${
-              isInput ? "hidden md:flex" : "flex"
+              isInput ? "hidden im:flex" : "flex"
             } mt-2 w-full h-1 mx-auto rounded-full bg-gray-400`}
           />
 
           {/* 🟠 単語 + 定義部分 */}
           <div
             className={`${
-              isTest ? "basis-[70%]" : "basis-[75%] md:basis-[50%]"
+              isTest ? "basis-[70%]" : "basis-[75%]"
             } relative w-full text-left`}
           >
             {/* 単語 */}
             <div
               className={`${
                 isTest ? "top-[50%]" : "top-[35%]"
-              } absolute left-0 -translate-y-[40%] px-4`}
+              } absolute left-0 -translate-y-[40%] im:-translate-y-[30%] px-4`}
             >
               <p
                 className={`${fontSizeClass} md:text-8xl font-extrabold text-orange-400 break-words`}

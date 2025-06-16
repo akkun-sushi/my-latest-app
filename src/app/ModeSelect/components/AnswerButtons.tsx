@@ -32,9 +32,9 @@ export default function AnswerButtons({
 
   const getFontSizeClass = (text: string) => {
     const length = text.length;
-    if (length < 7) return "text-base md:text-2xl";
-    if (length < 10) return "text-xs md:text-xl";
-    return "text-[10px] md:text-lg";
+    if (length < 7) return "text-base im:text-xl md:text-2xl";
+    if (length < 10) return "text-xs im:text-lg md:text-xl";
+    return "text-[10px] im:text-base md:text-lg";
   };
 
   return (
@@ -44,7 +44,7 @@ export default function AnswerButtons({
           <button
             onClick={onDontKnow}
             disabled={isDisabled}
-            className={`bg-red-500 text-white text-sm im:text-xl md:text-3xl font-extrabold py-4 px-2 md:py-8 md:px-6 rounded-xl md:rounded-3xl w-1/2 flex items-center justify-center gap-2 ${
+            className={`bg-red-500 text-white text-sm im:text-xl md:text-3xl font-extrabold h-14 im:h-24 px-2 md:px-6 rounded-xl md:rounded-3xl w-1/2 flex items-center justify-center gap-2 ${
               isDisabled ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -54,7 +54,7 @@ export default function AnswerButtons({
           <button
             onClick={onKnow}
             disabled={isDisabled}
-            className={`bg-green-600 text-white text-sm im:text-xl md:text-3xl font-extrabold py-4 px-2 md:py-8 md:px-6 rounded-xl md:rounded-3xl w-1/2 flex items-center justify-center gap-2 ${
+            className={`bg-green-600 text-white text-sm im:text-xl md:text-3xl font-extrabold h-14 im:h-24 px-2 md:px-6 rounded-xl md:rounded-3xl w-1/2 flex items-center justify-center gap-2 ${
               isDisabled ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -65,7 +65,7 @@ export default function AnswerButtons({
       )}
 
       {!isInput && (
-        <div className="grid grid-cols-2 gap-2 md:gap-4 w-full max-w-[90dvw] mt-4 px-2">
+        <div className="grid grid-cols-2 gap-2 im:gap-4 w-full max-w-[90dvw] mt-4 px-2">
           {options.map((opt, idx) => {
             const isSelected = selectedIndex === idx;
 
@@ -96,7 +96,7 @@ export default function AnswerButtons({
                 }}
                 className={`${bgColor} ${getFontSizeClass(
                   opt.text
-                )} text-white font-bold h-10 im:h-14 md:h-20 px-1 md:px-4 rounded-lg md:rounded-2xl shadow-md transition hover:scale-105 ${
+                )} text-white font-bold h-10 im:h-20 px-1 md:px-4 rounded-lg im:rounded-2xl shadow-md transition hover:scale-105 ${
                   isDisabled || selectedIndex !== null
                     ? "opacity-50 cursor-not-allowed"
                     : ""

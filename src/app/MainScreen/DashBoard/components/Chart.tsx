@@ -52,8 +52,8 @@ const Chart = ({ onLoaded }: Props) => {
   return (
     <div className="bg-white/10 p-4 sm:p-6 transition-transform duration-300 rounded-2xl shadow-xl">
       <h2 className="text-2xl font-semibold mb-4 text-center">📊 学習統計</h2>
-      <p className="mb-2">📅 勉強日数：{daysStudied}日</p>
-      <p className="mb-2">🔥 継続記録：{streak}日連続</p>
+      <p className="mb-2 ml-4">📅 勉強日数：{daysStudied}日</p>
+      <p className="mb-2 ml-4">🔥 継続記録：{streak}日連続</p>
       <div className="w-full md:h-96 flex items-center justify-center">
         <LearningLineChart onRendered={onLoaded} />
       </div>

@@ -104,10 +104,10 @@ export default function Calendar({ onLoaded }: Props) {
 
   return (
     <div className="bg-white/10 rounded-2xl shadow-lg p-4 sm:p-6 transition-transform duration-300 text-white w-full max-w-2xl mx-auto">
-      <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-4 text-center sm:text-left">
         <h2 className="text-2xl font-bold">📆 学習カレンダー</h2>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 justify-center sm:justify-end w-full sm:w-auto">
           <button
             onClick={handlePrevMonth}
             className="text-xs md:text-base text-indigo-300 hover:text-white transition"

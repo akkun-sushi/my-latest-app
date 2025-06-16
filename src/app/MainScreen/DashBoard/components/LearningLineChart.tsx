@@ -192,8 +192,8 @@ export default function LearningLineChart({ onRendered }: Props) {
   };
 
   return (
-    <div className="mt-4 w-full ">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-4 mb-4 mr-4">
+    <div className="mt-2 w-full ">
+      <div className="flex flex-col im:flex-row im:items-center im:justify-end gap-2 sm:gap-4 mb-4 mr-4">
         <label className="font-semibold text-gray-200 text-sm sm:text-base">
           表示範囲：
         </label>

@@ -308,8 +308,8 @@ export default function Page() {
           {/* タイトル＆進捗 */}
           <header className="py-4 md:py-8 border-b-2">
             <h1 className="flex flex-col md:flex-row items-center md:items-center gap-2 md:gap-4 text-xl is:text-2xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
-              <span className="font-sans text-2xl md:text-3xl">英単語学習</span>
-              <p className="mt-2 md:mt-0 md:ml-10 text-sm md:text-xl text-gray-700 font-bold">
+              <span className="font-sans text-2xl im:text-3xl">英単語学習</span>
+              <p className="mt-2 md:mt-0 md:ml-10 text-sm im:text-lg md:text-xl text-gray-700 font-bold">
                 楽しく、効率よく、 言葉の力を伸ばそう！
               </p>
             </h1>
