@@ -45,13 +45,13 @@ export default function Sidebar({
       {/* サイドバー */}
       <div
         className={`
-          w-64 bg-gray-900 text-white p-6 z-40 transition-transform duration-300 fixed top-0 left-0 h-full md:min-h-screen md:sticky md:top-0
+          w-52 md:w-64 bg-gray-900 text-white p-6 z-40 transition-transform duration-300 fixed top-0 left-0 h-full md:min-h-screen md:sticky md:top-0
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0 md:static md:block
         `}
       >
-        <h2 className="mt-16 md:mt-0 text-3xl font-bold mb-8 tracking-tight">
-          📚 WordApp
+        <h2 className="mt-2 md:mt-0 text-2xl md:text-3xl font-bold mb-8 tracking-tight text-center">
+          WordApp
         </h2>
         <ul className="space-y-4">
           {menuItems.map((item, index) => {
@@ -61,12 +61,12 @@ export default function Sidebar({
                 <a href={item.path}>
                   <div
                     className={`
-                flex items-center gap-3 px-3 py-2 rounded-lg transition cursor-pointer
+                flex items-center gap-3 px-3 py-2 rounded-lg transition cursor-pointer font-semibold
                 ${isActive ? "bg-blue-600" : "hover:bg-gray-700"}
               `}
                   >
-                    <span className="text-xl">{item.icon}</span>
-                    <span className="text-lg">{item.label}</span>
+                    <span className="text-lg md:text-xl">{item.icon}</span>
+                    <span className="text-sm md:text-lg">{item.label}</span>
                   </div>
                 </a>
               </li>

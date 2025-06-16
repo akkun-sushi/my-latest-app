@@ -65,8 +65,8 @@ export const PlanModal = ({
       setNicknameError("ニックネームを入力してください");
       return;
     }
-    if (nickname.length > 10) {
-      setNicknameError("ニックネームは10文字以内で入力してください");
+    if (nickname.length > 8) {
+      setNicknameError("ニックネームは8文字以内で入力してください");
       return;
     }
     if (/[^a-zA-Z0-9\u3040-\u30FF\u4E00-\u9FFF]/.test(nickname)) {
@@ -169,76 +169,73 @@ export const PlanModal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 md:p-8"
+      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8"
       onClick={onClose}
     >
       <div
-        className={`bg-white text-black rounded-2xl p-4 md:p-6 shadow-2xl overflow-y-auto relative ${
+        className={`bg-white text-black rounded-2xl shadow-2xl overflow-y-auto relative
+        ${
           step === "nickname"
-            ? "w-full max-w-md"
-            : "w-full max-w-4xl max-h-[80dvh]"
-        }`}
+            ? "w-full max-w-sm sm:max-w-md"
+            : "w-full max-w-3xl sm:max-w-4xl max-h-[80dvh]"
+        } p-4 sm:p-6 md:p-8`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative pt-4 space-y-6 pb-4">
-          {/* ✅ タイトル：ステップに応じて変化 */}
-          <h4 className="text-xl md:text-2xl font-semibold text-gray-800 text-center">
+        <div className="relative pt-2 sm:pt-4 space-y-6 pb-4">
+          {/* ✅ タイトル */}
+          <h4 className="sm:text-xl md:text-2xl font-semibold text-gray-800 text-center">
             {step === "select"
               ? "🎯 学習プランを選びましょう！"
-              : "📝 ニックネームを入力してください"}
+              : "📝 名前を入力してください"}
           </h4>
 
           {/* ✅ プラン選択ステップ */}
           {step === "select" && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4 md:px-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 px-2 sm:px-4">
               {plans.map((plan) => (
                 <div
                   key={plan.label}
-                  className={`relative p-4 rounded-xl shadow-md border ${plan.border} ${plan.bg} flex flex-col justify-between`}
+                  className={`relative p-4 sm:p-5 rounded-xl shadow-md border ${plan.border} ${plan.bg} flex flex-col justify-between`}
                 >
-                  {/* 👑 おすすめバッジ */}
                   {plan.daysCount === 5 && (
-                    <span className="absolute top-4 right-4 bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
+                    <span className="absolute top-3 right-3 bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
                       おすすめ
                     </span>
                   )}
-
-                  {/* プランラベル */}
-                  <h5 className="text-lg font-bold text-indigo-700 mb-2">
+                  <h5 className="text-base sm:text-lg font-bold text-indigo-700 mb-2">
                     {plan.label}
                   </h5>
 
-                  {/* 日程テーブル */}
-                  <table className="text-sm w-full border border-gray-300 rounded overflow-hidden mb-2">
-                    <thead>
-                      <tr className="bg-gray-200 text-gray-700">
-                        <th className="py-1 px-2 border">日</th>
-                        <th className="py-1 px-2 border">内容</th>
-                        <th className="py-1 px-2 border">範囲</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {plan.days.map(([day, task, range]) => (
-                        <tr key={day}>
-                          <td className="py-1 px-2 border">{day}</td>
-                          <td className="py-1 px-2 border">{task}</td>
-                          <td className="py-1 px-2 border">{range}</td>
+                  <div className="overflow-x-auto">
+                    <table className="text-xs sm:text-sm w-full border border-gray-300 rounded mb-2">
+                      <thead>
+                        <tr className="bg-gray-200 text-gray-700">
+                          <th className="py-1 px-2 border">日</th>
+                          <th className="py-1 px-2 border">内容</th>
+                          <th className="py-1 px-2 border">範囲</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {plan.days.map(([day, task, range]) => (
+                          <tr key={day}>
+                            <td className="py-1 px-2 border">{day}</td>
+                            <td className="py-1 px-2 border">{task}</td>
+                            <td className="py-1 px-2 border">{range}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
 
-                  {/* プランの特徴 */}
-                  <p className="text-lg md:text-xl text-gray-800 font-semibold italic mt-2 mb-4 px-1">
+                  <p className="text-sm sm:text-base text-gray-800 font-semibold italic mt-2 mb-4 px-1">
                     {plan.features}
                   </p>
 
-                  {/* 選択ボタン */}
                   <button
                     onClick={() =>
                       handleSelectPlan(plan.daysCount as 3 | 5 | 9)
                     }
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-2 px-4 rounded-xl transition"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold py-2 px-4 rounded-xl transition"
                   >
                     このプランで始める
                   </button>
@@ -249,30 +246,28 @@ export const PlanModal = ({
 
           {/* ✅ ニックネーム入力ステップ */}
           {step === "nickname" && (
-            <div className="flex flex-col items-center space-y-6 px-4 mt-6">
+            <div className="flex flex-col items-center space-y-6 px-2 sm:px-4 mt-4">
               <input
                 type="text"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                className="w-full max-w-sm px-4 py-2 border-2 border-gray-300 rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="ニックネーム（10文字以内）"
+                className="w-full max-w-sm px-4 py-2 border-2 border-gray-300 rounded-xl im:text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="ニックネーム（8文字以内）"
               />
               {nicknameError && (
                 <p className="text-red-500 text-sm">{nicknameError}</p>
               )}
-
-              {/* ボタン群 */}
-              <div className="flex gap-4 mt-4">
+              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
                 <button
                   onClick={() => setStep("select")}
-                  className="text-gray-600 border border-gray-400 px-6 py-2 rounded-lg hover:bg-gray-100 transition"
+                  className="text-gray-600 border border-gray-400 px-6 py-1 md:py-2 rounded-lg hover:bg-gray-100 transition"
                 >
                   ← 戻る
                 </button>
 
                 <button
                   onClick={handleNicknameSubmit}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xl px-8 py-4 rounded-xl shadow transition"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg sm:text-xl px-8 py-4 rounded-xl shadow transition"
                 >
                   学習を始める
                 </button>

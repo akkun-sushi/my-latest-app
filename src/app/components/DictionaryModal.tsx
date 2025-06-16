@@ -84,31 +84,32 @@ const DictionaryModal = ({ word, isOpen, onClose }: Props) => {
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4 sm:px-6"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white p-6 rounded-xl shadow-lg max-w-4xl w-[90dvw]  overflow-y-auto relative max-h-[80dvh] min-h-[500px] flex flex-col md:flex-row gap-6"
+        className="bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full max-w-4xl max-h-[80dvh] overflow-y-auto flex flex-col md:flex-row gap-6"
       >
         {/* 左：画像 */}
-        <div className="md:w-1/2 w-full rounded-xl overflow-hidden shadow min-h-[180px]">
+        <div className="md:w-1/2 w-full rounded-xl overflow-hidden shadow relative aspect-[16/9] md:aspect-auto min-h-[180px]">
           {showImage ? (
             <Image
               src={`/images/words/${imageName}.jpg`}
               alt={`${wordData.word} image`}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
               onError={handleImageError}
             />
           ) : (
-            <div className="w-full min-h-[180px] md:h-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+            <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
               画像がありません
             </div>
           )}
         </div>
 
         {/* 右：意味・語源など */}
-        <div className="md:w-1/2 w-full flex flex-col gap-y-4 pr-2">
-          <h1 className="text-2xl font-bold text-indigo-700">
+        <div className="md:w-1/2 w-full flex flex-col gap-y-4 pr-1 sm:pr-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-indigo-700">
             {wordData.word}
           </h1>
 
@@ -119,9 +120,13 @@ const DictionaryModal = ({ word, isOpen, onClose }: Props) => {
                 className="bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm"
               >
                 <p className="text-sm font-medium text-gray-500">{sense.pos}</p>
-                <p className="text-lg font-semibold mt-1">{sense.en}</p>
-                <p className="text-gray-700 mb-2">{sense.ja}</p>
-                <p className="italic text-indigo-600">
+                <p className="text-base sm:text-lg text-gray-900 font-semibold mt-1">
+                  {sense.en}
+                </p>
+                <p className="text-gray-700 text-sm sm:text-base mb-2">
+                  {sense.ja}
+                </p>
+                <p className="italic text-indigo-600 text-sm sm:text-base">
                   &quot;{sense.seEn}&quot;
                 </p>
                 <p className="text-sm text-gray-600">→ {sense.seJa}</p>
@@ -129,6 +134,7 @@ const DictionaryModal = ({ word, isOpen, onClose }: Props) => {
             ))}
           </section>
 
+          {/* 語源セクション */}
           {etymology &&
             etymology.trim() !== "" &&
             ![
@@ -136,10 +142,12 @@ const DictionaryModal = ({ word, isOpen, onClose }: Props) => {
               "語源情報の読み込みに失敗しました。",
             ].includes(etymology) && (
               <section className="bg-gray-100 p-4 rounded-xl border border-gray-200">
-                <h2 className="text-lg font-bold text-gray-700 mb-2">
+                <h2 className="text-base sm:text-lg font-bold text-gray-700 mb-2">
                   📜 語源
                 </h2>
-                <p className="text-gray-800 whitespace-pre-wrap">{etymology}</p>
+                <p className="text-gray-800 text-sm sm:text-base whitespace-pre-wrap">
+                  {etymology}
+                </p>
               </section>
             )}
         </div>

@@ -13,7 +13,11 @@ type Day = {
   reviewCount: number;
 };
 
-export default function Calendar() {
+type Props = {
+  onLoaded: () => void;
+};
+
+export default function Calendar({ onLoaded }: Props) {
   const [calendar, setCalendar] = useState<Day[]>([]);
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
@@ -31,7 +35,10 @@ export default function Calendar() {
 
   useEffect(() => {
     const { userData } = fetchFromLocalStorage();
-    if (!userData) return;
+    if (!userData) {
+      onLoaded(); // 読み込み失敗でも呼ぶ
+      return;
+    }
 
     const firstDayOfMonth = startOfMonth(new Date(year, month - 1));
     const lastDayOfMonth = endOfMonth(firstDayOfMonth);
@@ -80,6 +87,7 @@ export default function Calendar() {
     }
 
     setCalendar(days);
+    onLoaded(); // ✅ 完了通知
   }, [year, month]);
 
   const handlePrevMonth = () => {
@@ -95,14 +103,14 @@ export default function Calendar() {
   };
 
   return (
-    <div className="bg-gray-900  rounded-2xl shadow-xl p-6 text-white w-full max-w-2xl mx-auto">
+    <div className="bg-white/10 rounded-2xl shadow-lg p-4 sm:p-6 transition-transform duration-300 text-white w-full max-w-2xl mx-auto">
       <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
         <h2 className="text-2xl font-bold">📆 学習カレンダー</h2>
 
         <div className="flex items-center gap-4">
           <button
             onClick={handlePrevMonth}
-            className="text-indigo-300 hover:text-white transition"
+            className="text-xs md:text-base text-indigo-300 hover:text-white transition"
           >
             ◀ 前の月
           </button>
@@ -113,7 +121,7 @@ export default function Calendar() {
 
           <button
             onClick={handleNextMonth}
-            className="text-indigo-300 hover:text-white transition"
+            className="text-xs md:text-base text-indigo-300 hover:text-white transition"
           >
             次の月 ▶
           </button>

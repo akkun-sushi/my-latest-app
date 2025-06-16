@@ -5,12 +5,16 @@ import { fetchFromLocalStorage } from "@/app/hooks/fetchFromLocalStorage";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
+type Props = {
+  onLoaded: () => void;
+};
+
 // 動的インポートでもOKだが、Chart全体をクライアント扱いにする方が安全
 const LearningLineChart = dynamic(() => import("./LearningLineChart"), {
   ssr: false,
-}); 
+});
 
-const Chart = () => {
+const Chart = ({ onLoaded }: Props) => {
   const [daysStudied, setDaysStudied] = useState(0);
   const [streak, setStreak] = useState(0);
 
@@ -18,7 +22,10 @@ const Chart = () => {
     const today = getToday();
 
     const { userData } = fetchFromLocalStorage();
-    if (!userData) return;
+    if (!userData) {
+      onLoaded(); // ローディングだけ解除
+      return;
+    }
 
     const progress = userData.progress ?? {};
     const dates = Object.keys(progress);
@@ -39,15 +46,16 @@ const Chart = () => {
     }
 
     setStreak(count);
+    onLoaded(); // ✅ データ取得後に通知
   }, []);
 
   return (
-    <div className="bg-gray-900 rounded-2xl shadow-xl p-6">
-      <h2 className="text-2xl font-semibold mb-4">📊 学習統計</h2>
+    <div className="bg-white/10 p-4 sm:p-6 transition-transform duration-300 rounded-2xl shadow-xl">
+      <h2 className="text-2xl font-semibold mb-4 text-center">📊 学習統計</h2>
       <p className="mb-2">📅 勉強日数：{daysStudied}日</p>
       <p className="mb-2">🔥 継続記録：{streak}日連続</p>
-      <div className="w-full h-96 flex items-center justify-center">
-        <LearningLineChart />
+      <div className="w-full md:h-96 flex items-center justify-center">
+        <LearningLineChart onRendered={onLoaded} />
       </div>
     </div>
   );

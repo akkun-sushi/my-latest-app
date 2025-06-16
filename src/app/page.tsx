@@ -48,23 +48,25 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-purple-100 via-indigo-200 to-blue-300 text-gray-900 px-6 py-12 flex flex-col items-center justify-center">
+    <main className="min-h-screen bg-gradient-to-br from-purple-100 via-indigo-200 to-blue-300 text-gray-900 px-4 sm:px-6 md:px-12 py-10 md:py-16 flex flex-col items-center justify-center">
       {/* ✅ タイトル・キャッチコピー */}
-      <header className="text-center mb-16">
-        <h1 className="text-5xl md:text-6xl font-black mb-4 tracking-tight drop-shadow-md bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
-          英語学習、次のステージへ。
+      <header className="mb-12 md:mb-20 px-4">
+        <h1 className="text-center text-3xl im:text-4xl sm:text-5xl md:text-6xl font-black mb-4 tracking-tight drop-shadow-md bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+          英語学習、
+          <br />
+          次のステージへ。
         </h1>
-        <p className="text-lg md:text-xl max-w-2xl mx-auto text-gray-700 leading-relaxed">
+        <div className="text-sm im:text-base sm:text-lg md:text-xl max-w-2xl text-start mx-auto text-gray-700 leading-relaxed">
           ただの単語アプリじゃない。
-          <br />
+          <div className="mb-1" />
           覚えた単語、忘れたタイミング、学習のペースまで完全サポート。
-          <br />
-          自分史上最高の学習体験が、ここにある。
-        </p>
+          <div className="mb-1" />
+          自分史上最高の学習体験がここにある。
+        </div>
       </header>
 
       {/* ✅ 特徴紹介カード */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl mb-20">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 w-full max-w-6xl mb-16 md:mb-20 px-4">
         {[
           [
             "直感的インターフェース",
@@ -81,39 +83,43 @@ export default function Home() {
         ].map(([title, desc]) => (
           <div
             key={title}
-            className="bg-white rounded-3xl shadow-xl p-8 text-center hover:scale-105 transition-transform"
+            className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 text-center hover:scale-[1.03] transition-transform"
           >
-            <h2 className="text-2xl font-bold mb-2 text-indigo-700">{title}</h2>
-            <p className="text-gray-600">{desc}</p>
+            <h2 className="text-lg im:text-xl sm:text-2xl font-bold mb-2 text-indigo-700">
+              {title}
+            </h2>
+            <p className="text-xs im:text-sm sm:text-base text-gray-600">
+              {desc}
+            </p>
           </div>
         ))}
       </section>
 
-      {/* ✅ スタートボタン（読み込み後のみ表示） */}
+      {/* ✅ スタートボタン */}
       {!loading && (
         <button
           onClick={handleStartLearning}
-          className="bg-gradient-to-r from-indigo-600 to-purple-500 text-white text-2xl md:text-5xl font-semibold py-4 px-10 rounded-full shadow-xl hover:scale-110 transition-transform"
+          className="mb-16 bg-gradient-to-r from-indigo-600 to-purple-500 text-white text-xl sm:text-3xl md:text-4xl font-semibold py-3 sm:py-4 px-8 sm:px-10 rounded-full shadow-xl hover:scale-110 transition-transform"
         >
           {hasUser ? "📈 学習を続ける" : "🚀 今すぐ始める"}
         </button>
       )}
 
-      {/* ✅ 初回ユーザー用のプラン選択モーダル */}
+      {/* ✅ モーダル */}
       <PlanModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         redirectPath={"/MainScreen"}
       />
 
-      {/* ✅ 開発用：localStorage初期化ボタン（あとで消す） */}
+      {/* ✅ localStorage初期化ボタン */}
       <button
         onClick={() => {
           localStorage.clear();
           alert("🧹 localStorageを初期化しました！");
           window.location.reload();
         }}
-        className="fixed bottom-4 right-4 text-xs px-3 py-1 bg-red-500 text-white rounded-full shadow hover:bg-red-600"
+        className="fixed bottom-4 right-4 text-xs px-3 py-1 bg-red-500 text-white rounded-full shadow hover:bg-red-600 z-50"
       >
         🧪 初期化
       </button>

@@ -2,7 +2,7 @@
 
 import { getToday } from "@/app/hooks/dateUtils";
 import { fetchFromLocalStorage } from "@/app/hooks/fetchFromLocalStorage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -14,10 +14,18 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default function LearningLineChart() {
+type Props = {
+  onRendered: () => void;
+};
+
+export default function LearningLineChart({ onRendered }: Props) {
   const [viewMode, setViewMode] = useState<"4days" | "4weeks" | "4months">(
     "4days"
   );
+
+  useEffect(() => {
+    onRendered(); // 表示完了通知（Chart.tsxに渡す）
+  }, []);
 
   const getFilteredData = () => {
     const { userData } = fetchFromLocalStorage();
@@ -185,8 +193,8 @@ export default function LearningLineChart() {
 
   return (
     <div className="mt-4 w-full ">
-      <div className="flex justify-end mb-2 mr-4">
-        <label className="mr-2 pt-1 font-semibold text-gray-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-4 mb-4 mr-4">
+        <label className="font-semibold text-gray-200 text-sm sm:text-base">
           表示範囲：
         </label>
         <select
@@ -194,17 +202,18 @@ export default function LearningLineChart() {
           onChange={(e) =>
             setViewMode(e.target.value as "4days" | "4weeks" | "4months")
           }
-          className="bg-gray-800 text-white border border-gray-600 rounded-md px-3 py-1"
+          className="bg-gray-800 text-white border border-gray-600 rounded-md px-3 py-1 text-sm sm:text-base"
         >
           <option value="4days">直近4日間（日ごと）</option>
           <option value="4weeks">直近4週間（週ごと）</option>
           <option value="4months">直近4ヶ月（月ごと）</option>
         </select>
       </div>
+
       <ResponsiveContainer width="100%" height={350}>
         <LineChart
           data={getFilteredData()}
-          margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
+          margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
         >
           <CartesianGrid />
           <XAxis dataKey="date" interval={0} tickMargin={10} />

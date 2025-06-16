@@ -17,6 +17,7 @@ import { format } from "date-fns";
 import { ja } from "date-fns/locale/ja";
 import { updateLocalStorageObject } from "../hooks/updateLocalStorage";
 import { LearningPlanCard } from "./components/LearningPlanCard";
+import { LoadingScreen } from "../components/LoadingScreen";
 
 export default function MainScreen() {
   // 🔹 チャンク済み単語リストとステータスの状態
@@ -33,6 +34,7 @@ export default function MainScreen() {
   const [chunkListModal, setChunkListModal] = useState(false);
   const [learnSettingsModal, setLearnSettingsModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // 初期は読み込み中
+  const [isOpen, setIsOpen] = useState(false); // アコーディオンの開閉状態
 
   // ✅ 初回レンダリング時にローカルストレージからデータ取得
   useEffect(() => {
@@ -151,11 +153,7 @@ export default function MainScreen() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-950 text-white flex flex-col justify-center items-center">
-        <div className="animate-pulse text-2xl font-semibold">
-          データを読み込み中です...
-        </div>
-      </div>
+      <LoadingScreen />
     );
   }
 
@@ -174,7 +172,11 @@ export default function MainScreen() {
 
       {/* ⬆ メインコンテンツエリア */}
       <main className="flex-1 p-6 flex flex-col items-center relative">
-        <h1 className="text-4xl font-bold mb-10">ホーム</h1>
+        <h1 className="text-lg md:text-4xl font-bold mb-4 md:mb-10">
+          {userData.userName}さん、
+          <br />
+          おかえりなさい！
+        </h1>
 
         <LearningPlanCard
           wordLists={wordLists}
@@ -184,28 +186,54 @@ export default function MainScreen() {
 
         {/* 🔁 復習カードと📚現在学習中チャンクカード */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-6xl mb-10">
+          {/* 📚 学習中チャンクカード */}
+          <div
+            className="cursor-pointer rounded-2xl shadow-lg p-6 flex flex-col justify-between bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 text-black transition-all duration-200 hover:scale-105"
+            onClick={() => {
+              setSelectedChunkIndex(unlockedChunkIndex);
+              setChunkListModal(true);
+            }}
+          >
+            <div className="mb-4 text-center">
+              <h2 className="text-2xl text-white font-extrabold mb-2 drop-shadow">
+                学習中チャンク
+              </h2>
+              <p className="text-lg font-bold text-white">
+                {`${unlockedChunkIndex * 100 + 1} 〜 ${
+                  (unlockedChunkIndex + 1) * 100
+                }単語`}
+              </p>
+              <div className="mt-2">
+                <ProgressBar
+                  index={unlockedChunkIndex}
+                  textColor="text-white"
+                />
+              </div>
+            </div>
+          </div>
+
           {/* 🔁 復習カード */}
           <div
             className={`cursor-pointer rounded-2xl shadow-md p-6 flex flex-col justify-between transition-all duration-200
-    ${
-      reviewWords.length > 0
-        ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:scale-105"
-        : "bg-gray-600 text-gray-300 cursor-not-allowed opacity-60"
-    }`}
+            ${
+              reviewWords.length > 0
+                ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:scale-105"
+                : "bg-gray-600 text-gray-300 cursor-not-allowed opacity-60"
+            }`}
             onClick={reviewWords.length > 0 ? handleReview : undefined}
           >
-            <div className="mb-4 text-center">
-              <h2 className="text-3xl font-extrabold mb-3 tracking-wide drop-shadow-sm">
-                🔁 復習する
+            <div className="md:mb-4 text-center">
+              <h2 className="text-2xl font-extrabold mb-3 tracking-wide drop-shadow-sm">
+                復習する
               </h2>
 
               {reviewWords.length > 0 ? (
                 <div className="space-y-2 text-sm">
-                  <p className="text-lg font-bold">
+                  <p className="md:text-lg font-bold">
                     今日の復習リストに取り組もう！
                   </p>
                   <div className="mt-3 flex justify-center">
-                    <div className="bg-white/20 text-left p-3 rounded-lg text-sm space-y-1">
+                    <div className="bg-white/20 text-left  rounded-lg text-sm space-y-1">
                       <p>
                         <span>今日の復習単語：</span>
                         {Math.min(reviewWords.length, 100)}語
@@ -219,14 +247,14 @@ export default function MainScreen() {
                 </div>
               ) : (
                 <div className="space-y-2 text-sm">
-                  <p className="text-lg font-bold">
+                  <p className="md:text-lg font-bold">
                     今日は復習単語がありません
                   </p>
                   <div className="mt-3 flex justify-center">
                     <div className="bg-white/10 text-left p-3 rounded-lg text-sm space-y-1">
                       <p>
                         <span className="font-semibold">次回の復習日：</span>
-                        {nextReviewDate}
+                        {nextReviewDate ? nextReviewDate : "未定"}
                       </p>
                       <p>
                         <span className="font-semibold">予定単語数：</span>
@@ -240,63 +268,56 @@ export default function MainScreen() {
               )}
             </div>
           </div>
-
-          {/* 📚 学習中チャンクカード */}
-          <div
-            className="cursor-pointer rounded-2xl shadow-lg p-6 flex flex-col justify-between bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 text-black transition-all duration-200 hover:scale-105"
-            onClick={() => {
-              setSelectedChunkIndex(unlockedChunkIndex);
-              setChunkListModal(true);
-            }}
-          >
-            <div className="mb-4 text-center">
-              <h2 className="text-2xl font-extrabold mb-2 drop-shadow">
-                📚 学習中チャンク
-              </h2>
-              <p className="text-lg font-bold text-white">
-                {`${(unlockedChunkIndex + 1) * 100} 〜 ${
-                  (unlockedChunkIndex + 2) * 100
-                }単語`}
-              </p>
-              <div className="mt-2">
-                <ProgressBar index={unlockedChunkIndex} />
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* 🧱 チャンク選択用のカード一覧 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-6xl mb-10">
-          {wordLists.map((_, index) => {
-            const tagName = `${(index + 1) * 100} 〜 ${(index + 2) * 100}単語`;
+        <div className="w-full max-w-6xl">
+          {/* アコーディオンのタイトルカード */}
+          <div
+            className={`cursor-pointer bg-gradient-to-br from-lime-100 via-lime-200 to-green-100
+              rounded-2xl shadow-lg p-8 mb-6
+              hover:scale-105 hover:shadow-2xl
+              transition-transform duration-300 border border-lime-300`}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 tracking-wide flex items-center justify-center gap-3">
+              {isOpen ? "▼" : "▶"} 全単語リストを見る
+            </h2>
+          </div>
+          {/* 展開されたカード群 */}
+          {isOpen && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {wordLists.map((_, index) => {
+                const start = index * 100 + 1;
+                const end = (index + 1) * 100;
+                const tagName = `${start} 〜 ${end}単語`;
+                const isDisabled = index > unlockedChunkIndex;
 
-            // チャンクが未解禁の場合は非活性にする
-            const isDisabled = index > unlockedChunkIndex;
-
-            return (
-              <div
-                key={index}
-                onClick={() => {
-                  if (isDisabled) return;
-                  setSelectedChunkIndex(index); // モーダルに渡す index
-                  setChunkListModal(true); // モーダルを開く
-                }}
-                className={`cursor-pointer rounded-2xl shadow-xl p-6 flex flex-col justify-between transition-transform duration-300
+                return (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      if (isDisabled) return;
+                      setSelectedChunkIndex(index);
+                      setChunkListModal(true);
+                    }}
+                    className={`cursor-pointer rounded-2xl shadow-xl p-6 flex flex-col justify-between transition-transform duration-300
                 ${
                   isDisabled
                     ? "bg-gray-700 cursor-not-allowed opacity-50"
-                    : "bg-gray-900 hover:scale-105"
+                    : "bg-gray-800 hover:scale-105"
                 }
               `}
-              >
-                {/* カードの中身 */}
-                <div className="mb-4">
-                  <h2 className="text-2xl font-semibold mb-2">{tagName}</h2>
-                  <ProgressBar index={index} />
-                </div>
-              </div>
-            );
-          })}
+                  >
+                    <div className="mb-4">
+                      <h2 className="text-xl font-semibold mb-2">{tagName}</h2>
+                      <ProgressBar index={index} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* 📦 チャンク選択時に開くモーダル（詳細 & スタート） */}

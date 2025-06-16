@@ -105,7 +105,7 @@ export default function ProgressBar({
     displayCount = levelCounts[1];
   } else {
     statusLabel = "未習";
-    statusColor = "text-slate-400";
+    statusColor = "text-slate-600";
     displayCount = 0;
   }
 

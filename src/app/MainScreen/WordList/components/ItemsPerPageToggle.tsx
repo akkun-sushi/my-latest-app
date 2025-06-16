@@ -10,8 +10,8 @@ export default function ItemsPerPageToggle({
   onChange,
 }: Props) {
   return (
-    <div className="flex items-center gap-2 md:gap-3 border border-gray-300 p-3 rounded-lg shadow-sm bg-white">
-      <span className="text-sm text-gray-700 whitespace-nowrap font-bold">
+    <div className="flex items-center gap-2 md:gap-3 border border-gray-600 p-3 rounded-lg shadow-sm bg-gray-800 text-white">
+      <span className="text-sm text-gray-300 whitespace-nowrap font-bold">
         表示数:
       </span>
       {options.map((n) => {
@@ -23,13 +23,12 @@ export default function ItemsPerPageToggle({
           <button
             key={n}
             onClick={() => onChange(n)}
-            className={`px-4 py-1.5 rounded-full text-sm border transition shadow-sm font-semibold whitespace-nowrap
+            className={`px-2.5 md::px-4 py-1.5 rounded-full text-sm border transition shadow-sm font-semibold whitespace-nowrap
           ${
             isSelected
               ? "bg-blue-600 text-white border-blue-600"
-              : "bg-white text-gray-700 border-gray-300 hover:bg-blue-100"
-          }
-        `}
+              : "bg-gray-700 text-gray-300 border-gray-500 hover:bg-gray-600"
+          }`}
           >
             {label}
           </button>
