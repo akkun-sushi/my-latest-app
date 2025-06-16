@@ -3,7 +3,7 @@
 import Sidebar from "@/app/components/Sidebar";
 
 import { LoadingScreen } from "@/app/components/LoadingScreen";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 
 // 動的インポート（必要に応じて）
