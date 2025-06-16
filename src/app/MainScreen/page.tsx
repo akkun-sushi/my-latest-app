@@ -152,9 +152,7 @@ export default function MainScreen() {
   };
 
   if (isLoading) {
-    return (
-      <LoadingScreen />
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -168,7 +166,7 @@ export default function MainScreen() {
         />
       )}
       {/* ⬅ サイドバー（ナビゲーション） */}
-      <Sidebar />
+      <Sidebar isFixed={false} />
 
       {/* ⬆ メインコンテンツエリア */}
       <main className="flex-1 p-6 flex flex-col items-center relative">
@@ -195,7 +193,7 @@ export default function MainScreen() {
             }}
           >
             <div className="mb-4 text-center">
-              <h2 className="text-2xl text-white font-extrabold mb-2 drop-shadow">
+              <h2 className="text-2xl text-white font-extrabold mb-2 tracking-wide drop-shadow-sm w-full border-b-4 border-white pb-1">
                 学習中チャンク
               </h2>
               <p className="text-lg font-bold text-white">
@@ -223,7 +221,7 @@ export default function MainScreen() {
             onClick={reviewWords.length > 0 ? handleReview : undefined}
           >
             <div className="md:mb-4 text-center">
-              <h2 className="text-2xl font-extrabold mb-3 tracking-wide drop-shadow-sm">
+              <h2 className="text-2xl font-extrabold mb-3 tracking-wide drop-shadow-sm w-full border-b-4 border-white pb-1">
                 復習する
               </h2>
 
@@ -233,7 +231,7 @@ export default function MainScreen() {
                     今日の復習リストに取り組もう！
                   </p>
                   <div className="mt-3 flex justify-center">
-                    <div className="bg-white/20 text-left  rounded-lg text-sm space-y-1">
+                    <div className="text-left font-semibold rounded-lg text-sm space-y-1">
                       <p>
                         <span>今日の復習単語：</span>
                         {Math.min(reviewWords.length, 100)}語

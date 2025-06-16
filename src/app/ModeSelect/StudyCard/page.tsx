@@ -149,8 +149,12 @@ const InputMode = () => {
   // ==========================
 
   return (
-    <div className="h-[100dvh] bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col items-center relative pb-16 md:pb-24">
-      <Header mode={settings.mode} />
+    <div className="h-[100dvh] bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col items-center relative pb-12 im:pb-16 md:pb-24">
+      <Header
+        mode={settings.mode}
+        currentLevel={currentLevel}
+        levelStyles={levelStyles}
+      />
 
       <FlashCard
         sense={currentSense}
@@ -161,8 +165,6 @@ const InputMode = () => {
         isSpeaking={isSpeaking}
         isBackButtonPressed={isBackButtonPressed}
         buttonPressed={buttonPressed}
-        currentLevel={currentLevel}
-        levelStyles={levelStyles}
         onFlip={handleCardFlip}
         onBack={handleBackClick}
         onMoreInfo={handleMoreInfoClick}

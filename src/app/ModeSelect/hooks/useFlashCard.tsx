@@ -92,7 +92,7 @@ export const useFlashCard = ({
 
   // 🎨 習熟度レベルごとのスタイル設定
   const levelStyles: Record<number, string> = {
-    0: "bg-blue-100",
+    0: "bg-gray-300",
     1: "bg-red-100 text-red-800",
     2: "bg-orange-100 text-orange-800",
     3: "bg-yellow-100 text-yellow-800",

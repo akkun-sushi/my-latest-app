@@ -161,6 +161,7 @@ export function useAnswerHandler(
     // ⏹ タイマー停止 ＋ ボタン押下状態を保存
     // ================================
     clearTimeout(timeoutRef.current!);
+    clearInterval(intervalRef.current!);
     setButtonPressed(type);
 
     // ================================
@@ -430,7 +431,7 @@ const useChoiceOptions = (
 // ✅ モードと回答結果に応じて、次の単語表示までの遅延時間を決定
 const calcDelay = (mode: string, type: "know" | "dontKnow") => {
   if (mode === "input") return 300;
-  return type === "know" ? 100 : 1000; // 正解なら短く、不正解ならやや長めに
+  return type === "know" ? 500 : 1000; // 正解なら短く、不正解ならやや長めに
 };
 
 // ✅ モードと学習プランに応じて、次回復習日を算出

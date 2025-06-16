@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { SenseStatus, WordWithSenses } from "../../../types/WordSensesList";
 import { saveListToLocalStorage } from "../hooks/updateLocalStorage";
 import { useRouter } from "next/navigation";
+import { fetchFromLocalStorage } from "../hooks/fetchFromLocalStorage";
 
 type Props = {
   words: WordWithSenses[];
@@ -22,8 +23,18 @@ export const LearnSettingsModal = ({
 
   const [questionType] = useState("en-ja"); //一時的にen-jaの選択可 のちのちオプション拡大
   const [order, setOrder] = useState("random");
-  const [wordCount, setWordCount] = useState(100);
-  const [onlyMistakes, setOnlyMistakes] = useState(false);
+  const [wordCount, setWordCount] = useState(-1);
+  const [onlyMistakes, setOnlyMistakes] = useState(true);
+
+  useEffect(() => {
+    const { learnSettings } = fetchFromLocalStorage();
+    if (learnSettings) {
+      if (learnSettings.mode === "review") {
+        setWordCount(100);
+        setOnlyMistakes(false);
+      }
+    }
+  }, []);
 
   const sortWords = (
     words: WordWithSenses[],
@@ -84,6 +95,9 @@ export const LearnSettingsModal = ({
     const filtered = filterOnlyMistakesWords(words, onlyMistakes);
     const sorted = selectWordsByCount(filtered, wordCount);
     const final = sortWords(sorted, order);
+
+    if (final.length === 0) setOnlyMistakes(false);
+
     return final;
   }, [words, statuses, onlyMistakes, wordCount, order]);
 
@@ -115,27 +129,31 @@ export const LearnSettingsModal = ({
       onClick={onClose}
     >
       <div
-        className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl w-[90vw] max-w-lg p-6 space-y-6 relative max-h-[80dvh] overflow-y-auto"
+        className="bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl w-[95vw] sm:w-[90vw] max-w-md sm:max-w-lg md:max-w-2xl p-4 sm:p-6 space-y-6 relative max-h-[80dvh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* タイトル */}
-        <div className="flex items-center justify-between border-b pb-2">
-          <h2 className="text-2xl font-extrabold text-gray-800">
+        <div className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-2 border-b pb-2">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gray-800">
             📘 復習 学習設定
           </h2>
 
           <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-gray-600">該当単語</span>
-            <span className="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full shadow-sm w-[5rem] text-center">
+            <span className="text-sm sm:text-base font-bold text-gray-600">
+              該当単語
+            </span>
+            <span className="bg-blue-100 text-blue-800 text-sm sm:text-base font-bold px-3 py-1 rounded-full shadow-sm w-[5rem] text-center">
               {finalWords.length} 語
             </span>
           </div>
         </div>
 
-        {/* ✅ 出題形式（モード詳細） */}
+        {/* 出題形式（モード詳細） */}
         <div className="space-y-2">
-          <h3 className="text-md font-bold text-gray-700">出題スタイル</h3>
-          <div className="grid grid-cols-2 gap-3">
+          <h3 className="text-sm sm:text-base font-bold text-gray-700">
+            出題スタイル
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { value: "en-ja", label: "英語 → 日本語" },
               { value: "en-def", label: "英語 → 定義" },
@@ -145,7 +163,7 @@ export const LearnSettingsModal = ({
             ].map((opt) => (
               <button
                 key={opt.value}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+                className={`px-4 py-2 rounded-lg text-sm sm:text-base font-semibold transition ${
                   questionType === opt.value
                     ? "bg-blue-200 text-blue-800"
                     : "bg-gray-200 text-gray-700 hover:bg-blue-100"
@@ -157,10 +175,12 @@ export const LearnSettingsModal = ({
           </div>
         </div>
 
-        {/* ✅ 単語の順序 */}
+        {/* 単語の順序 */}
         <div className="space-y-2">
-          <h3 className="text-md font-bold text-gray-700">単語の順序</h3>
-          <div className="flex gap-3 flex-wrap">
+          <h3 className="text-sm sm:text-base font-bold text-gray-700">
+            単語の順序
+          </h3>
+          <div className="flex flex-wrap gap-3">
             {[
               { value: "alphabetical", label: "ABC順" },
               { value: "random", label: "ランダム" },
@@ -170,7 +190,7 @@ export const LearnSettingsModal = ({
               <button
                 key={opt.value}
                 onClick={() => setOrder(opt.value)}
-                className={`px-4 py-2 rounded-full text-sm font-bold transition ${
+                className={`px-4 py-2 rounded-full text-sm sm:text-base font-bold transition ${
                   order === opt.value
                     ? "bg-orange-200 text-orange-800"
                     : "bg-gray-200 text-gray-600 hover:bg-blue-100"
@@ -182,15 +202,17 @@ export const LearnSettingsModal = ({
           </div>
         </div>
 
-        {/* ✅ 出題語数 */}
+        {/* 出題語数 */}
         <div className="space-y-2">
-          <h3 className="text-md font-bold text-gray-700">復習語数</h3>
-          <div className="flex gap-3 flex-wrap">
+          <h3 className="text-sm sm:text-base font-bold text-gray-700">
+            復習語数
+          </h3>
+          <div className="flex flex-wrap gap-2 im:gap-3">
             {[25, 50, 100, -1].map((n) => (
               <button
                 key={n}
                 onClick={() => setWordCount(n)}
-                className={`px-4 py-2 rounded-full text-sm font-bold transition ${
+                className={`px-4 py-2 rounded-full text-xs im:text-sm sm:text-base font-bold transition ${
                   wordCount === n
                     ? "bg-green-200 text-green-800"
                     : "bg-gray-200 text-gray-600 hover:bg-green-100"
@@ -202,9 +224,9 @@ export const LearnSettingsModal = ({
           </div>
         </div>
 
-        {/* ✅ 前回間違えた単語のみ */}
+        {/* 前回間違えた単語のみ */}
         <div className="space-y-2">
-          <h3 className="text-md font-bold text-gray-700">
+          <h3 className="text-sm sm:text-base font-bold text-gray-700">
             前回間違えた単語のみ出題
           </h3>
           <div className="flex gap-3">
@@ -215,7 +237,7 @@ export const LearnSettingsModal = ({
               <button
                 key={String(opt.value)}
                 onClick={() => setOnlyMistakes(opt.value)}
-                className={`px-4 py-2 rounded-full text-sm font-bold transition ${
+                className={`px-4 py-2 rounded-full text-sm sm:text-base font-bold transition ${
                   onlyMistakes === opt.value
                     ? "bg-red-200 text-red-800"
                     : "bg-gray-200 text-gray-600 hover:bg-red-100"
@@ -227,11 +249,11 @@ export const LearnSettingsModal = ({
           </div>
         </div>
 
-        {/* ✅ スタートボタン */}
+        {/* スタートボタン */}
         <button
           type="button"
           onClick={handleStart}
-          className="w-full py-3 px-4 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition"
+          className="w-full py-3 px-4 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition text-sm sm:text-base md:text-lg"
         >
           🚀 復習する
         </button>

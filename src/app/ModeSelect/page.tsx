@@ -299,27 +299,22 @@ export default function Page() {
     <div className="min-h-screen max-w-[100dvw] flex overflow-x-hidden">
       {/* Sidebar: 固定幅 */}
       <div className="md:w-64 flex-shrink-0">
-        <Sidebar
-          isFixed={false}
-          toggleButtonColor="text-blue-500"
-          toggleButtonPosition="top-10 left-6"
-        />
+        <Sidebar isFixed={false} toggleButtonColor="text-gray-800" />
       </div>
 
       {/* Main: 残り全部 */}
       <div className="flex-1 bg-gradient-to-br from-sky-50 via-indigo-100 to-white py-4 px-4">
         <div className="w-full max-w-5xl mx-auto">
           {/* タイトル＆進捗 */}
-          <header className="px-6 py-4 md:py-8 border-b-2">
-            <h1 className="md:ml-0 ml-8 text-xl is:text-2xl md:text-4xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
-              <span className="font-sans">英単語学習</span>
-              <p className="ml-2 md:ml-10 md:mt-3 text-sm md:text-xl text-gray-700 font-bold">
-                楽しく、効率よく、
-                <br className="md:hidden" />
-                言葉の力を伸ばそう！
+          <header className="py-4 md:py-8 border-b-2">
+            <h1 className="flex flex-col md:flex-row items-center md:items-center gap-2 md:gap-4 text-xl is:text-2xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+              <span className="font-sans text-2xl md:text-3xl">英単語学習</span>
+              <p className="mt-2 md:mt-0 md:ml-10 text-sm md:text-xl text-gray-700 font-bold">
+                楽しく、効率よく、 言葉の力を伸ばそう！
               </p>
             </h1>
           </header>
+
           <LearningPlanInfo learningPlan={userData.learningPlan} />
 
           <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -392,44 +387,49 @@ export default function Page() {
           </section>
 
           {/* モード選択の下に冒頭10単語リストを表示 */}
-          <div className="bg-white rounded-xl p-6 shadow-md max-h-[70vh] overflow-y-auto space-y-6">
-            <h2 className="text-2xl font-bold text-indigo-700 mb-4">
+          <div className="bg-white rounded-xl p-2 md:p-6 shadow-md max-h-[70vh] overflow-y-auto space-y-6">
+            <h2 className="text-2xl font-bold text-indigo-700 mb-4 md:mb-8 text-center mt-2">
               単語リスト
             </h2>
 
-            {displayedWords.map((word) => (
-              <div key={word.word_id} className="p-4 space-y-4">
-                {/* 単語の見出し */}
-                <div className="flex items-baseline justify-between">
-                  <h3 className="text-xl font-bold text-indigo-700">
-                    {word.word}
-                  </h3>
-                  <span className="text-sm text-gray-500">
-                    {word.senses[0]?.pos}
-                  </span>
-                </div>
-
-                {/* 各意味を表示 */}
-                {word.senses.map((sense) => (
-                  <div
-                    key={sense.senses_id}
-                    className="border-l-4 border-indigo-300 pl-4 space-y-2"
-                  >
-                    <p className="text-gray-800 font-bold italic">
-                      <span className="text-red-500">定義:</span> {sense.en}
-                    </p>
-                    <p className="text-gray-800 font-bold italic">
-                      <span>和訳:</span> {sense.ja}
-                    </p>
-                    <p className="text-gray-700 text-sm">📘 {sense.seEn}</p>
-                    <p className="text-gray-700 text-sm">📙 {sense.seJa}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {displayedWords.map((word) => (
+                <div
+                  key={word.word_id}
+                  className="mx-2 md:mx-0 p-4 space-y-4 border border-gray-200 rounded-xl shadow-sm bg-white"
+                >
+                  {/* 単語の見出し */}
+                  <div className="flex items-baseline justify-between">
+                    <h3 className="text-xl font-bold text-indigo-700">
+                      {word.word}
+                    </h3>
+                    <span className="text-sm text-gray-500">
+                      {word.senses[0]?.pos}
+                    </span>
                   </div>
-                ))}
-              </div>
-            ))}
+
+                  {/* 各意味を表示 */}
+                  {word.senses.map((sense) => (
+                    <div
+                      key={sense.senses_id}
+                      className="text-xs md:text-base border-l-4 border-indigo-300 pl-4 space-y-2"
+                    >
+                      <p className="text-red-500 font-bold italic">
+                        <span>定義:</span> {sense.en}
+                      </p>
+                      <p className="text-gray-800 font-bold italic">
+                        <span>和訳:</span> {sense.ja}
+                      </p>
+                      <p className="text-gray-700">📘 {sense.seEn}</p>
+                      <p className="text-gray-700">📙 {sense.seJa}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
 
             {/* 切り替えボタン */}
-            <div className="flex justify-end">
+            <div className="flex justify-end mt-4">
               <button
                 onClick={() => setShowAll(!showAll)}
                 className="text-sm text-indigo-600 hover:underline focus:outline-none"

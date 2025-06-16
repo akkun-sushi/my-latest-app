@@ -23,7 +23,8 @@ export const useAutoReloadOnDateChange = () => {
           const status = senseStatuses.find(
             (s) => s.senses_id === sense.senses_id
           );
-          return status?.learnedDate === today;
+          if (!status?.learnedDate) return false; // ← null/undefined 対策
+          return status.learnedDate === today;
         })
       );
 

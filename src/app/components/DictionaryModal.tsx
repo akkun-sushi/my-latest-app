@@ -90,24 +90,7 @@ const DictionaryModal = ({ word, isOpen, onClose }: Props) => {
         onClick={(e) => e.stopPropagation()}
         className="bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full max-w-4xl max-h-[80dvh] overflow-y-auto flex flex-col md:flex-row gap-6"
       >
-        {/* 左：画像 */}
-        <div className="md:w-1/2 w-full rounded-xl overflow-hidden shadow relative aspect-[16/9] md:aspect-auto min-h-[180px]">
-          {showImage ? (
-            <Image
-              src={`/images/words/${imageName}.jpg`}
-              alt={`${wordData.word} image`}
-              fill
-              className="object-cover"
-              onError={handleImageError}
-            />
-          ) : (
-            <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
-              画像がありません
-            </div>
-          )}
-        </div>
-
-        {/* 右：意味・語源など */}
+        {/* 左：意味・語源など */}
         <div className="md:w-1/2 w-full flex flex-col gap-y-4 pr-1 sm:pr-2">
           <h1 className="text-xl sm:text-2xl font-bold text-indigo-700">
             {wordData.word}
@@ -150,6 +133,23 @@ const DictionaryModal = ({ word, isOpen, onClose }: Props) => {
                 </p>
               </section>
             )}
+        </div>
+
+        {/* 右：画像 */}
+        <div className="md:w-1/2 w-full rounded-xl overflow-hidden shadow relative aspect-[16/9] md:aspect-auto min-h-[180px]">
+          {showImage ? (
+            <Image
+              src={`/images/words/${imageName}.jpg`}
+              alt={`${wordData.word} image`}
+              fill
+              className="object-cover"
+              onError={handleImageError}
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+              画像がありません
+            </div>
+          )}
         </div>
       </div>
     </div>
