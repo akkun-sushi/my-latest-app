@@ -134,7 +134,7 @@ export default function ProgressBar({
           );
         })}
       </div>
-      <p className={`text-sm font-semibold mt-2 ${textColor}`}>
+      <p className={`text-xs im:text-sm font-semibold mt-2 ${textColor}`}>
         進捗：<span className={statusColor}>{statusLabel}</span> {displayCount}{" "}
         / {totalCount} 単語
       </p>

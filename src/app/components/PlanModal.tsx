@@ -28,9 +28,9 @@ export const PlanModal = ({
   const [selectedPlan, setSelectedPlan] = useState<3 | 5 | 9 | null>(null);
   const [nickname, setNickname] = useState("");
   const [nicknameError, setNicknameError] = useState("");
-  const [step, setStep] = useState<"select" | "nickname">("select"); // 2ステップ：プラン選択 → ニックネーム入力
-
-  const tag = "yopio"; // ✅ 学習テーマ（今後変更する場合はここ）
+  // 🧠 ステート追加
+  const [step, setStep] = useState<"list" | "select" | "nickname">("list");
+  const [selectedTag, setSelectedTag] = useState<"yopio" | "duo3" | null>(null);
 
   /**
    * ✅ プランが選択されたときの処理
@@ -39,12 +39,14 @@ export const PlanModal = ({
    * - ステップを「ニックネーム入力」に進める
    */
   const handleSelectPlan = (days: 3 | 5 | 9) => {
-    initializeFromSupabase(tag); // 初期化（学習計画生成など）
+    if (!selectedTag) return;
 
     const confirmed = window.confirm(
       "一度開始するとプランの変更はできません。このプランで始めますか？"
     );
     if (!confirmed) return;
+
+    initializeFromSupabase(selectedTag); // ✅ 選択されたリストに応じて初期化
     setSelectedPlan(days);
     setStep("nickname");
   };
@@ -58,7 +60,7 @@ export const PlanModal = ({
    */
   const handleNicknameSubmit = async () => {
     const { userData } = fetchFromLocalStorage();
-    if (!userData || !selectedPlan) return;
+    if (!userData || !selectedPlan || !selectedTag) return;
 
     // バリデーション
     if (!nickname.trim()) {
@@ -86,7 +88,7 @@ export const PlanModal = ({
       userId: data.user.id,
       userName: nickname,
       createdAt: getToday(),
-      tag,
+      tag: selectedTag,
       learningPlan: {
         ...userData.learningPlan,
         durationDays: selectedPlan,
@@ -184,14 +186,43 @@ export const PlanModal = ({
         <div className="relative pt-2 sm:pt-4 space-y-6 pb-4">
           {/* ✅ タイトル */}
           <h4 className="sm:text-xl md:text-2xl font-semibold text-gray-800 text-center">
-            {step === "select"
+            {step === "list"
+              ? "📚 学習リストを選びましょう！"
+              : step === "select"
               ? "🎯 学習プランを選びましょう！"
-              : "📝 名前を入力してください"}
+              : "📝 ニックネームを入力してください"}
           </h4>
+          {step === "list" && (
+            <div className="flex flex-col items-center gap-6 px-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                {["yopio", "duo3"].map((tag) => (
+                  <button
+                    key={tag}
+                    onClick={() => {
+                      setSelectedTag(tag as "yopio" | "duo3");
+                      setStep("select");
+                    }}
+                    className="px-6 py-3 rounded-xl text-white font-bold text-lg shadow bg-indigo-600 hover:bg-indigo-700 transition"
+                  >
+                    {tag === "yopio" ? "📝 Yopio 単語帳" : "📘 Duo 3.0"}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* ✅ プラン選択ステップ */}
           {step === "select" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 px-2 sm:px-4">
+              {/* ← 戻るボタンを上部に表示 */}
+              <div className="flex justify-center mb-4">
+                <button
+                  onClick={() => setStep("list")}
+                  className="text-gray-600 border border-gray-400 px-4 py-1 rounded-lg hover:bg-gray-100 transition text-sm sm:text-base"
+                >
+                  ← 学習リスト選択に戻る
+                </button>
+              </div>
               {plans.map((plan) => (
                 <div
                   key={plan.label}

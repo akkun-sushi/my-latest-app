@@ -59,7 +59,7 @@ export const initializeFromSupabase = (tag: string) => {
       .select(
         `
       id,
-      word,
+      word_id,
       pos,
       en,
       ja,
@@ -120,14 +120,14 @@ export const initializeFromSupabase = (tag: string) => {
       });
     });
 
-    // ✅ 単語リスト形式に整形・ソート（アルファベット順）
-    const wordListForLocalStorage = Array.from(wordMap.entries())
-      .map(([word_id, { word, senses }]) => ({
+    // ✅ 単語リスト形式に整形・ソート
+    const wordListForLocalStorage = Array.from(wordMap.entries()).map(
+      ([word_id, { word, senses }]) => ({
         word_id,
         word,
         senses,
-      }))
-      .sort((a, b) => a.word.localeCompare(b.word));
+      })
+    );
 
     // ✅ 各senseに対する初期ステータスを作成
     const senseStatusList = (data as SupabaseSenseRow[])

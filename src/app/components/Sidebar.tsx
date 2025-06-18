@@ -27,7 +27,7 @@ export default function Sidebar({
       icon: <BsBarChart />,
       path: "/MainScreen/DashBoard",
     },
-    { label: "設定", icon: <BsGear />, path: "" },
+    { label: "設定", icon: <BsGear />, path: "/MainScreen/Settings" },
   ];
 
   return (

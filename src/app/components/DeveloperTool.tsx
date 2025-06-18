@@ -5,6 +5,9 @@ import { getNDaysLater, getToday } from "../hooks/dateUtils";
 import { fetchFromLocalStorage } from "../hooks/fetchFromLocalStorage";
 
 export const DeveloperTool = () => {
+  const isDev =
+    typeof window !== "undefined" && window.location.hostname === "localhost";
+
   const [selectedDate, setSelectedDate] = useState<string>(getToday());
   const [isClicked, setIsClicked] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -80,6 +83,8 @@ export const DeveloperTool = () => {
 
     calculateLocalStorageUsage(); // 更新後に再計算
   };
+
+  if (!isDev) return null;
 
   return (
     <div className="m-10 bg-white text-gray-900 p-6 rounded-xl shadow-md max-w-md mx-auto space-y-6 border border-gray-300">
