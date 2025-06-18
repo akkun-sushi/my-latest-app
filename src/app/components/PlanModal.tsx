@@ -179,7 +179,7 @@ export const PlanModal = ({
         ${
           step === "nickname"
             ? "w-full max-w-sm sm:max-w-md"
-            : "w-full max-w-3xl sm:max-w-4xl max-h-[80dvh]"
+            : "w-full max-w-3xl sm:max-w-4xl max-h-[80dvh] md:max-h-[85dvh]"
         } p-4 sm:p-6 md:p-8`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -190,7 +190,7 @@ export const PlanModal = ({
               ? "📚 学習リストを選びましょう！"
               : step === "select"
               ? "🎯 学習プランを選びましょう！"
-              : "📝 ニックネームを入力してください"}
+              : "📝 名前を入力してください"}
           </h4>
           {step === "list" && (
             <div className="flex flex-col items-center gap-6 px-4">
@@ -211,18 +211,21 @@ export const PlanModal = ({
             </div>
           )}
 
+          {/* ← 戻るボタンを上部に表示 */}
+          {step === "select" && (
+            <div className="flex justify-center mb-4 md:mb-8">
+              <button
+                onClick={() => setStep("list")}
+                className="text-gray-600 border border-gray-400 px-4 py-1 rounded-lg hover:bg-gray-100 transition text-sm sm:text-base md:text-xl"
+              >
+                ← 学習リスト選択に戻る
+              </button>
+            </div>
+          )}
+
           {/* ✅ プラン選択ステップ */}
           {step === "select" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 px-2 sm:px-4">
-              {/* ← 戻るボタンを上部に表示 */}
-              <div className="flex justify-center mb-4">
-                <button
-                  onClick={() => setStep("list")}
-                  className="text-gray-600 border border-gray-400 px-4 py-1 rounded-lg hover:bg-gray-100 transition text-sm sm:text-base"
-                >
-                  ← 学習リスト選択に戻る
-                </button>
-              </div>
               {plans.map((plan) => (
                 <div
                   key={plan.label}

@@ -145,12 +145,9 @@ export const useFlashCard = ({
           }
           break;
         case "s":
-          /*
-          if (mode === "input") {   
+          if (mode === "input" || process.env.NODE_ENV === "development") {
             handleAnswer("know");
           }
-          */
-          handleAnswer("know"); //練習用
           break;
         case " ":
           e.preventDefault(); // スクロール防止（特にSpace）

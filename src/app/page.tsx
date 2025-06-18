@@ -112,17 +112,18 @@ export default function Home() {
         redirectPath={"/MainScreen"}
       />
 
-      {/* ✅ localStorage初期化ボタン */}
-      <button
-        onClick={() => {
-          localStorage.clear();
-          alert("🧹 localStorageを初期化しました！");
-          window.location.reload();
-        }}
-        className="fixed bottom-4 right-4 text-xs px-3 py-1 bg-red-500 text-white rounded-full shadow hover:bg-red-600 z-50"
-      >
-        🧪 初期化
-      </button>
+      {process.env.NODE_ENV === "development" && (
+        <button
+          onClick={() => {
+            localStorage.clear();
+            alert("🧹 localStorageを初期化しました！");
+            window.location.reload();
+          }}
+          className="fixed bottom-4 right-4 text-xs px-3 py-1 bg-red-500 text-white rounded-full shadow hover:bg-red-600 z-50"
+        >
+          🧪 初期化
+        </button>
+      )}
     </main>
   );
 }

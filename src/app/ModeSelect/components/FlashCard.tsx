@@ -49,12 +49,16 @@ const FlashCard = ({
   const wordLength = currentWord.word.length;
   let fontSizeClass = "text-5xl";
 
-  if (wordLength > 14) {
-    fontSizeClass = "text-2xl im:text-4xl";
+  if (wordLength > 20) {
+    fontSizeClass = "text-xl im:text-2xl";
+  } else if (wordLength > 16) {
+    fontSizeClass = "text-2xl im:text-3xl";
+  } else if (wordLength > 14) {
+    fontSizeClass = "text-3xl im:text-4xl";
   } else if (wordLength > 10) {
-    fontSizeClass = "text-3xl im:text-5xl";
+    fontSizeClass = "text-4xl im:text-5xl";
   } else if (wordLength > 7) {
-    fontSizeClass = "text-4l im:text-5xl";
+    fontSizeClass = "text-4xl im:text-5xl";
   }
 
   return (
@@ -116,7 +120,7 @@ const FlashCard = ({
               } absolute left-0 -translate-y-[40%] im:-translate-y-[30%] px-4`}
             >
               <p
-                className={`${fontSizeClass} md:text-8xl font-extrabold text-orange-400 break-words`}
+                className={`${fontSizeClass} md:text-8xl font-extrabold text-orange-400 whitespace-nowrap`}
               >
                 {currentWord.word}
               </p>
